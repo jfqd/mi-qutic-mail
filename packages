@@ -1,0 +1,42 @@
+# List packages to add to your image one per line.
+#
+postfix
+postfix-mysql
+postfix-pcre
+#
+policyd
+policyd-weight
+#
+amavisd-new
+#
+unzoo
+xbin
+unrar
+unarj
+lzop
+lhasa
+freeze
+arc
+zip
+unzip
+gzip
+bunzip
+gtar
+xz
+#
+clamav
+# clamav-unofficial-sigs
+#
+spamassassin
+pyzor
+#
+dovecot-2.2
+dovecot-mysql
+dovecot-pigeonhole
+#
+fail2ban
+#
+# In the future we might switch to rspamd
+# https://www.rspamd.com/
+# rspamd
+# 

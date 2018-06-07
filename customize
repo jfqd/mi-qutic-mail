@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
+
+# Exit if any commands fail
+set -o errexit
+
+DESTDIR="/var/www/htdocs/nextcloud"
+
+MUNIN_PLUGINS="
+	postfix_mailvolume
+	postfix_mailstats
+	postfix_mailqueue
+	postgrey
+	clamav
+	spamassassin
+"
+
+echo "* Activate munin plugins"
+/opt/qutic/bin/munin-node-plugins ${MUNIN_PLUGINS}
+
+echo "* Setup vmail"
+groupadd -g 155 vmail
+useradd -m -s /usr/bin/false -d /var/mail -u 155 -g vmail vmail
+# passwd -N vmail
+# passwd -d vmail
+
+echo "* Make mail folder unwritable without nfs"
+mkdir -p /var/mail
+chown root:root
+chmod 0750
+
+# Clean up
+echo "* Cleaning up."
+rm /root/customize
+
+# Prepare image for provisioning
+sm-prepare-image -y
