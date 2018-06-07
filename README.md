@@ -34,10 +34,18 @@ vmadm create << EOF
       "ip":        "10.10.10.10",
       "gateway":   "10.10.10.1",
       "netmask":   "255.255.255.0"
+    },
+    {
+      "interface": "net1",
+      "nic_tag":   "admin",
+      "ip":        "10.10.10.10",
+      "gateway":   "10.10.10.1",
+      "netmask":   "255.255.255.0",
+      "primary":   true
     }
   ],
-  "max_physical_memory": 1024,
-  "max_swap":            1024,
+  "max_physical_memory": 4096,
+  "max_swap":            4096,
   "quota":                 10,
   "cpu_cap":              100,
   "customer_metadata": {

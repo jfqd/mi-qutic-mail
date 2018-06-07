@@ -30,7 +30,7 @@ clamav
 spamassassin
 pyzor
 #
-dovecot-2.2
+dovecot
 dovecot-mysql
 dovecot-pigeonhole
 #

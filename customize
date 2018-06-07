@@ -5,8 +5,6 @@ PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 # Exit if any commands fail
 set -o errexit
 
-DESTDIR="/var/www/htdocs/nextcloud"
-
 MUNIN_PLUGINS="
 	postfix_mailvolume
 	postfix_mailstats
@@ -14,10 +12,16 @@ MUNIN_PLUGINS="
 	postgrey
 	clamav
 	spamassassin
+	ps_smtpd
+	fail2ban
+	dovecot
 "
 
 echo "* Activate munin plugins"
 /opt/qutic/bin/munin-node-plugins ${MUNIN_PLUGINS}
+
+echo "* Import fail2ban smf"
+svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
 
 echo "* Setup vmail"
 groupadd -g 155 vmail
@@ -27,12 +31,28 @@ useradd -m -s /usr/bin/false -d /var/mail -u 155 -g vmail vmail
 
 echo "* Make mail folder unwritable without nfs"
 mkdir -p /var/mail
-chown root:root
-chmod 0750
+chown root:root /var/mail
+chmod 0750 /var/mail
+
+echo "* Backup original config files"
+cp /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
+cp /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
+cp /opt/local/etc/amavisd.conf /opt/local/etc/amavisd.conf.bak
+cp /opt/local/etc/clamd.conf /opt/local/etc/clamd.conf.bak
+cp /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
+cp /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
+cp /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
+cp /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
+
+echo "* Create postfix sql folder"
+mkdir -p /opt/local/etc/postfix/sql
+chmod 0750 /opt/local/etc/postfix/sql
+chown root:postfix /opt/local/etc/postfix/sql
 
 # Clean up
 echo "* Cleaning up."
 rm /root/customize
+/usr/sbin/svccfg delete svc:/pkgsrc/nullmailer
 
 # Prepare image for provisioning
 sm-prepare-image -y
