@@ -35,6 +35,7 @@ dovecot-mysql
 # dovecot-pigeonhole
 #
 fail2ban
+spiped
 #
 # In the future we might switch to rspamd
 # https://www.rspamd.com/

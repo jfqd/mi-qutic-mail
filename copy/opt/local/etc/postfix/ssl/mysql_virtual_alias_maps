@@ -1,0 +1,5 @@
+user=postfix_mysqluser
+password=postfix_mysqlpassword
+dbname=postfix_mysqldbname
+hosts=postfix_mysqlhost
+query = SELECT goto FROM aliases WHERE address='%s' AND active='1'

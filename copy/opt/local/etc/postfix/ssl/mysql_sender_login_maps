@@ -1,0 +1,5 @@
+user=postfix_mysqluser
+password=postfix_mysqlpassword
+dbname=postfix_mysqldbname
+hosts=127.0.0.1
+query = SELECT address FROM users WHERE address='%s' AND active='1'

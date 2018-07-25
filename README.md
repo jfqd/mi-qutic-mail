@@ -45,19 +45,29 @@ vmadm create << EOF
     }
   ],
   "max_physical_memory": 4096,
-  "max_swap":            4096,
-  "quota":                 10,
-  "cpu_cap":              100,
+  "quota":                 20,
+  "cpu_cap":              200,
   "customer_metadata": {
     "admin_authorized_keys": "your-long-key",
     "root_authorized_keys":  "your-long-key",
     "munin_master_allow":    "munin-master.example.com",
     "nagios_allow":          "10.10.10.0/24",
     "logstash_redis":        "redis://10.10.10.10:6379/0,redis://10.10.10.11:6379/0",
-    "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr"
+    "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr",
+    "nginx_ssl":             "certificat-with-encoded-linebreaks"
   }
 }
 EOF
 ```
 
 The main configuration of all components is done via ansible and not part of this project!
+You should adjust at least the following config files:
+
+* amavisd-new.conf
+* clamd.conf
+* dovecot.conf
+* freshclam.conf
+* fail2ban/jail.local
+* postfix/main.cf
+* postfix/master.cf
+* spamassassin/local.cf

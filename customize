@@ -44,10 +44,15 @@ cp /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
 cp /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 cp /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 
-echo "* Create postfix sql folder"
-mkdir -p /opt/local/etc/postfix/sql
+echo "* Set Folder rights"
 chmod 0750 /opt/local/etc/postfix/sql
-chown root:postfix /opt/local/etc/postfix/sql
+chmod 0640 /opt/local/etc/postfix/sql/*
+chown -R root:postfix /opt/local/etc/postfix/sql
+chmod 0600 /opt/local/etc/dovecot/dovecot-sql.conf
+chown root:root /opt/local/etc/dovecot/dovecot-sql.conf
+
+echo "* Setup clamav-unofficial-sigs"
+mkdir -p /var/log/clamav-unofficial-sigs
 
 # Clean up
 echo "* Cleaning up."
