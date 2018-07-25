@@ -54,7 +54,7 @@ vmadm create << EOF
     "nagios_allow":          "10.10.10.0/24",
     "logstash_redis":        "redis://10.10.10.10:6379/0,redis://10.10.10.11:6379/0",
     "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr",
-    "nginx_ssl":             "certificat-with-encoded-linebreaks"
+    "mail_ssl":              "certificat-with-encoded-linebreaks"
   }
 }
 EOF
