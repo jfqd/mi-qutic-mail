@@ -45,6 +45,7 @@ cp /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 cp /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 
 echo "* Set Folder rights"
+mkdir -p /opt/local/etc/postfix/sql
 chmod 0750 /opt/local/etc/postfix/sql
 chmod 0640 /opt/local/etc/postfix/sql/*
 chown -R root:postfix /opt/local/etc/postfix/sql
