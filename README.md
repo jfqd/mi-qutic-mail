@@ -37,9 +37,9 @@ vmadm create << EOF
     },
     {
       "interface": "net1",
-      "nic_tag":   "admin",
-      "ip":        "10.10.10.10",
-      "gateway":   "10.10.10.1",
+      "nic_tag":   "external",
+      "ip":        "20.10.10.10",
+      "gateway":   "20.10.10.1",
       "netmask":   "255.255.255.0",
       "primary":   true
     }

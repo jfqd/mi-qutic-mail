@@ -1,6 +1,6 @@
 {
   "name":         "qutic-mail",
-  "version":      "17.4.0",
+  "version":      "17.4.1",
   "description":  "qutic mailserver image",
   "organization": "qutic development",
   "brand":        "mailserver instance",
@@ -19,6 +19,9 @@
     "munin_master_allow":    {"type": "text", "description": "ip addresses (alternative hostname) of the munin master node"},
     "nagios_allow":          {"type": "text", "description": "ip addresses of the nagios server node, seperated by comma"},
     "logstash_redis":        {"type": "text", "description": "ip addresses of the logstash redis nodes, seperated by comma and including redis-protocoll"},
-    "vfstab":                {"type": "text", "description": "nfs mountpoint for vfstab-file"}
+    "vfstab":                {"type": "text", "description": "nfs mountpoint for vfstab-file"},
+    "mail_ssl":              {"type": "text", "description": "ssl certificate for postfix and dovecot"},
+    "spiped_redis_host":     {"type": "text", "description": "redis host for spiped"},
+    "spiped_percona_host":   {"type": "text", "description": "percona host for spiped"}
   }
 }

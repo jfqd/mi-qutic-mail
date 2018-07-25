@@ -32,7 +32,7 @@ pyzor
 #
 dovecot
 dovecot-mysql
-dovecot-pigeonhole
+# dovecot-pigeonhole
 #
 fail2ban
 #
