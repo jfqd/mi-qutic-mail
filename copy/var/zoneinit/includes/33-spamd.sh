@@ -3,8 +3,8 @@ CRON='42 7 * * * sudo -u spamd /opt/local/bin/sa-update && kill -SIGHUP $(cat /v
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
 
 # Run pyzor discover
-sudo -u spamd pyzor --homedir /opt/local/etc/spamassassin ping || \
-	sudo -u spamd pyzor --homedir /opt/local/etc/spamassassin discover
+sudo -u spamd /opt/local/bin/pyzor --homedir /opt/local/etc/spamassassin ping || \
+	sudo -u spamd /opt/local/bin/pyzor --homedir /opt/local/etc/spamassassin discover
 
 # enable spamd service
 /usr/sbin/svcadm enable svc:/network/spamd

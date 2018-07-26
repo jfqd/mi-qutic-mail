@@ -36,6 +36,10 @@ dovecot-mysql
 #
 fail2ban
 spiped
+# autoresponder
+ruby24
+ruby24-mysql2
+ruby24-sequel
 #
 # In the future we might switch to rspamd
 # https://www.rspamd.com/

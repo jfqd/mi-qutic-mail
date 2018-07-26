@@ -5,6 +5,8 @@ PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 # Exit if any commands fail
 set -o errexit
 
+AUTORESPONDER_VERSION="v0.1.0"
+
 MUNIN_PLUGINS="
 	postfix_mailvolume
 	postfix_mailstats
@@ -26,7 +28,7 @@ svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
 echo "* Setup vmail"
 groupadd -g 155 vmail
 useradd -m -s /usr/bin/false -d /var/mail -u 155 -g vmail vmail
-# passwd -N vmail
+passwd -N vmail
 # passwd -d vmail
 
 echo "* Make mail folder unwritable without nfs"
@@ -37,6 +39,21 @@ chmod 0750 /var/mail
 echo "* setup pid folders"
 mkdir -p /var/run/clamd
 chown clamav:clamav /var/run/clamd
+
+echo "* Create spamd group and user"
+groupadd spamd
+useradd -d /var/spamassassin -c "spamassassin spamd user" -s /usr/bin/false -g spamd spamd
+passwd -N spamd
+
+echo "* Update permissions for spamassassin folders"
+mkdir /var/spamassassin/.spamassassin
+chown -R spamd:spamd /var/spamassassin
+chown -R spamd:spamd /opt/local/etc/spamassassin
+
+# Create logging folder for spamd
+echo "* Create logging folder for spamd"
+mkdir /var/log/spamd
+chown -R spamd:spamd /var/log/spamd
 
 echo "* Backup original config files"
 mv /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
@@ -87,6 +104,19 @@ mkdir -p /opt/local/etc/ssl/private
 chmod 0755 /opt/local/etc/ssl/
 chmod 0750 /opt/local/etc/ssl/private
 chown -R root:root /opt/local/etc/ssl
+
+echo "* setup autoresponder"
+mkdir -p /opt/local/var/vmail
+curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
+gem install redis
+gem install dotenv
+gem install mail
+gem install pony
+mv /opt/local/var/vmail/env /opt/local/var/vmail/.env
+chmod 0640 /opt/local/var/vmail/.env
+chown root:vmail /opt/local/var/vmail/.env
+touch /var/log/autoresponder.log
+chown vmail:root /var/log/autoresponder.log
 
 # Clean up
 echo "* Cleaning up."
