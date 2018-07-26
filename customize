@@ -44,6 +44,8 @@ cp /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
 cp /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 cp /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 
+echo "* Move new config files into place"
+
 echo "* Set Folder rights"
 mkdir -p /opt/local/etc/postfix/sql
 chmod 0750 /opt/local/etc/postfix/sql
@@ -54,6 +56,23 @@ chown root:root /opt/local/etc/dovecot/dovecot-sql.conf
 
 echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
+
+echo "* Setup amavisn clamav"
+usermod -G amavisn clamav
+usermod -G clamav amavisn
+
+echo "* setup spiped"
+useradd -m -s /usr/bin/false -d / -u 120 -g spiped spiped
+dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
+chmod 0640 /etc/ssh/spiped.key
+chown root:spiped /etc/ssh/spiped.key
+svccfg delete svc:/pkgsrc/spiped:default
+
+echo "* setup ssl infrastructure"
+mkdir -p /opt/local/etc/ssl/private
+chmod 0755 /opt/local/etc/ssl/
+chmod 0750 /opt/local/etc/ssl/private
+chown -R root:root /opt/local/etc/ssl
 
 # Clean up
 echo "* Cleaning up."
