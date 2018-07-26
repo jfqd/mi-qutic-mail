@@ -90,6 +90,10 @@ mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 rm -rf /opt/local/etc/tmp/
 
+echo "* Create Log folder for clamav"
+mkdir -p /var/log/clamav
+chmod 0755 /var/log/clamav
+
 echo "* Set Folder rights"
 mkdir -p /opt/local/etc/postfix/sql
 chmod 0750 /opt/local/etc/postfix/sql
