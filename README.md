@@ -61,7 +61,7 @@ EOF
 ```
 
 The main configuration of all components is done via ansible and not part of this project!
-You should adjust at least the following config files:
+You should adjust at least the following config files to your needs:
 
 * amavisd-new.conf
 * clamd.conf

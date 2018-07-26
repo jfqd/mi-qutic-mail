@@ -1,7 +1,7 @@
 name="qutic-mail"
 organization="qutic development"
 brand="mailserver instance"
-version="17.4.1"
+version="18.2.0"
 description="qutic mailserver image"
 homepage="https://github.com/jfqd/mi-qutic-mail"
 users="root admin"

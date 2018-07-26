@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.2.0
+
+* switch to pkgsrc 2018Q2
+* add clamav-unofficial-sigs
+* add autoresponder
+* add mdata-config
+
 ## 17.4.1
 
 * add fail2ban smf

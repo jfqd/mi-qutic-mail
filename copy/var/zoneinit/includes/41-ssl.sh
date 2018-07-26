@@ -17,4 +17,3 @@ if mdata-get mail_ssl 1>/dev/null 2>&1; then
   chmod 0644 "${SSL_HOME}"/cert.*
   chmod 0440 "${SSL_PRIVATE}"/cert.*
 fi
-
