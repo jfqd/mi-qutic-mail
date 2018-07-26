@@ -31,6 +31,9 @@
     "postfix_mysqlpassword": {"type": "text", "description": "mysql password for postfix and dovecot"},
     "postfix_mysqldbname":   {"type": "text", "description": "mysql database for postfix and dovecot"},
     "postfix_pwd_salt":      {"type": "text", "description": "some extras for postfix"},
-    "postfix_postmaster":    {"type": "text", "description": "postmaster email address"}
+    "postfix_postmaster":    {"type": "text", "description": "postmaster email address"},
+    "postfix_mynetworks":    {"type": "text", "description": "postfix mynetworks"},
+    "postfix_hostname":      {"type": "text", "description": "external hostname of the box"},
+    "masquerade_domains":    {"type": "text", "description": "postfix masquerade_domains"}
   }
 }

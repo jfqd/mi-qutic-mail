@@ -6,5 +6,8 @@ CRON='42 7 * * * sudo -u spamd /opt/local/bin/sa-update && kill -SIGHUP $(cat /v
 sudo -u spamd /opt/local/bin/pyzor --homedir /opt/local/etc/spamassassin ping || \
 	sudo -u spamd /opt/local/bin/pyzor --homedir /opt/local/etc/spamassassin discover
 
-# enable spamd service
-/usr/sbin/svcadm enable svc:/network/spamd
+# remove spamassassin service
+svccfg delete svc:/pkgsrc/spamassassin:default
+
+# enable spamassassin service
+svcadm enable svc:/pkgsrc/amavisd:default
