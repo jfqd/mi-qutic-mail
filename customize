@@ -57,7 +57,7 @@ mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
 mv /opt/local/etc/tmp/policyd-weight.conf /opt/local/etc/policyd-weight.conf
 mv /opt/local/etc/tmp/policyd.conf /opt/local/etc/policyd.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
-rem -rf /opt/local/etc/tmp/
+rm -rf /opt/local/etc/tmp/
 
 echo "* Set Folder rights"
 mkdir -p /opt/local/etc/postfix/sql
