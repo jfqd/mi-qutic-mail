@@ -33,12 +33,12 @@ if mdata-get postfix_hostname 1>/dev/null 2>&1; then
 fi
 
 if mdata-get postfix_hostname 1>/dev/null 2>&1; then
-  MYORIGIN=`mdata-get postfix_hostname | awk -F @ {'print$2'}`
+  MYORIGIN=`mdata-get postfix_postmaster | awk -F @ {'print$2'}`
   sed -i "s/= example.com/= ${MYORIGIN}/" /opt/local/etc/postfix/main.cf
 fi
 
 if mdata-get masquerade_domains 1>/dev/null 2>&1; then
-  MASQUERADE=`mdata-get masquerade_domains | awk -F @ {'print$2'}`
+  MASQUERADE=`mdata-get masquerade_domains`
   sed -i "s/= example.com example.net/= ${MASQUERADE}/" /opt/local/etc/postfix/main.cf
 fi
 
