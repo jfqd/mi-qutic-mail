@@ -19,5 +19,6 @@ if mdata-get mail_ssl 1>/dev/null 2>&1; then
 else
   /opt/qutic/bin/ssl-selfsigned.sh -d "${SSL_HOME}" -f cert
   mv "${SSL_HOME}"/cert.{key,pem} "${SSL_PRIVATE}"
+  mv "${SSL_HOME}"/cert.crt "${SSL_HOME}"/cert.pem
   rm "${SSL_HOME}"/cert.csr
 fi

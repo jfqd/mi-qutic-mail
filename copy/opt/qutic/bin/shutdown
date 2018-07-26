@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+# backup settings
+[[ -x /var/mail/bin/backup ]] && /var/mail/bin/backup || true
+
+# bye
+exit 0
