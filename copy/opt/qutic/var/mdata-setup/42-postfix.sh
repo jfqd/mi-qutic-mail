@@ -22,4 +22,4 @@ if mdata-get postfix_mysqldbname 1>/dev/null 2>&1; then
   sed -i "s/=postfix_mysqldbname/=$MYSQDB/" /opt/local/etc/postfix/sql/mysql_virtual_mailbox_maps
 fi
 
-svcadm enable postfix
+svcadm enable svc:/pkgsrc/postfix:default

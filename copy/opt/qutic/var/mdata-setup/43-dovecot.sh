@@ -23,4 +23,4 @@ if mdata-get postfix_postmaster 1>/dev/null 2>&1; then
   sed -i "s/postmaster@example.com/$POSTMASTER/" /opt/local/etc/dovecot/dovecot.conf
 fi
 
-svcadm enable dovecot
+svcadm enable svc:/pkgsrc/dovecot:default

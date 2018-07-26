@@ -34,17 +34,30 @@ mkdir -p /var/mail
 chown root:root /var/mail
 chmod 0750 /var/mail
 
+echo "* setup pid folders"
+mkdir -p /var/run/clamd
+chown clamav:clamav /var/run/clamd
+
 echo "* Backup original config files"
-cp /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
-cp /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
-cp /opt/local/etc/amavisd.conf /opt/local/etc/amavisd.conf.bak
-cp /opt/local/etc/clamd.conf /opt/local/etc/clamd.conf.bak
-cp /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
-cp /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
-cp /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
-cp /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
+mv /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
+mv /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
+mv /opt/local/etc/amavisd.conf /opt/local/etc/amavisd.conf.bak
+mv /opt/local/etc/clamd.conf /opt/local/etc/clamd.conf.bak
+mv /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
+mv /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
+mv /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
+mv /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 
 echo "* Move new config files into place"
+mv /opt/local/etc/tmp/main.cf /opt/local/etc/postfix/main.cf
+mv /opt/local/etc/tmp/master.cf /opt/local/etc/postfix/master.cf
+mv /opt/local/etc/tmp/amavisd.conf /opt/local/etc/amavisd.conf
+mv /opt/local/etc/tmp/clamd.conf /opt/local/etc/clamd.conf
+mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
+mv /opt/local/etc/tmp/policyd-weight.conf /opt/local/etc/policyd-weight.conf
+mv /opt/local/etc/tmp/policyd.conf /opt/local/etc/policyd.conf
+mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
+rem -rf /opt/local/etc/tmp/
 
 echo "* Set Folder rights"
 mkdir -p /opt/local/etc/postfix/sql
@@ -58,10 +71,11 @@ echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
 
 echo "* Setup amavisn clamav"
-usermod -G amavisn clamav
-usermod -G clamav amavisn
+usermod -G amavis clamav
+usermod -G clamav amavis
 
 echo "* setup spiped"
+groupadd -g 120 spiped
 useradd -m -s /usr/bin/false -d / -u 120 -g spiped spiped
 dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
 chmod 0640 /etc/ssh/spiped.key
@@ -78,6 +92,8 @@ chown -R root:root /opt/local/etc/ssl
 echo "* Cleaning up."
 rm /root/customize
 /usr/sbin/svccfg delete svc:/pkgsrc/nullmailer
+rm /var/zoneinit/includes/17-nullmailer.sh
+rm -rf /var/log/nullmailer
 
 # Prepare image for provisioning
 sm-prepare-image -y
