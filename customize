@@ -24,6 +24,8 @@ echo "* Activate munin plugins"
 
 echo "* Import fail2ban smf"
 svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
+mkdir -p /var/run/fail2ban/
+svcadm enable svc:/network/fail2ban:default
 
 echo "* Setup vmail"
 groupadd -g 155 vmail
@@ -46,9 +48,18 @@ useradd -d /var/spamassassin -c "spamassassin spamd user" -s /usr/bin/false -g s
 passwd -N spamd
 
 echo "* Update permissions for spamassassin folders"
-mkdir /var/spamassassin/.spamassassin
+mkdir -p /var/spamassassin/.spamassassin
 chown -R spamd:spamd /var/spamassassin
 chown -R spamd:spamd /opt/local/etc/spamassassin
+
+echo "* Prepare qutic spammassasin rules"
+mkdir -p /var/spamassassin/3.004001/updates_qutic_com
+cat >> /var/spamassassin/3.004001/updates_qutic_com.cf << EOF
+include updates_qutic_com/80_QD_body.cf
+include updates_qutic_com/80_QD_header.cf
+EOF
+touch /var/spamassassin/3.004001/updates_qutic_com/80_QD_body.cf
+touch /var/spamassassin/3.004001/updates_qutic_com/80_QD_header.cf
 
 # Create logging folder for spamd
 echo "* Create logging folder for spamd"
@@ -64,6 +75,7 @@ mv /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
 mv /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
 mv /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 mv /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
+mv /opt/local/etc/spamassassin/local.cf /opt/local/etc/spamassassin/local.cf.bak
 
 echo "* Move new config files into place"
 mv /opt/local/etc/tmp/main.cf /opt/local/etc/postfix/main.cf
@@ -74,6 +86,7 @@ mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
 mv /opt/local/etc/tmp/policyd-weight.conf /opt/local/etc/policyd-weight.conf
 mv /opt/local/etc/tmp/policyd.conf /opt/local/etc/policyd.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
+mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 rm -rf /opt/local/etc/tmp/
 
 echo "* Set Folder rights"
