@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+export PATH=/opt/qutic/sbin:/opt/qutic/bin:/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin
+
+export LC_MONETARY=de_DE.UTF-8
+export LC_NUMERIC=en_US.UTF-8
+export LC_MESSAGES=en_US.UTF-8
+export LC_COLLATE=C
+export LANG=de_DE.UTF-8
+export TZ=Europe/Berlin
+export LC_CTYPE=en_US.UTF-8
+export LC_TIME=de_DE.UTF-8
+
+if [[ -f /var/mail/bin/vmail-cleanup.rb ]]; then
+  (
+    cd /var/mail/bin
+    /opt/local/bin/ruby ./vmail-cleanup.rb
+  )
+fi
