@@ -124,6 +124,10 @@ chmod 0755 /opt/local/etc/ssl/
 chmod 0750 /opt/local/etc/ssl/private
 chown -R root:root /opt/local/etc/ssl
 
+echo "* add additional daemons"
+svccfg import /opt/local/lib/svc/manifest/policyd-weight.xml
+svcadm enable svc:/network/policyd-weight:default
+
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
