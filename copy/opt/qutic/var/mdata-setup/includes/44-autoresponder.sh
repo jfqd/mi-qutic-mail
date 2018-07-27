@@ -1,16 +1,17 @@
 if mdata-get mail_smarthost 1>/dev/null 2>&1; then
   MAIL_HOST=`mdata-get mail_smarthost`
   sed -i "s#MAILSERVER=\"mail.example.com\"#MAILSERVER=\"${MAIL_HOST}\"#" /opt/local/var/vmail/.env
+  sed -i "s#MAILBOX_PATH=\"/your/mailbox/path\"#MAILBOX_PATH=\"/var/mail/vhosts\"#" /opt/local/var/vmail/.env
   
   if mdata-get mail_auth_user 1>/dev/null 2>&1; then
     MAIL_USER=`mdata-get mail_auth_user`
     sed -i "s#MAILUSER=\"noreply@example.com\"#MAILUSER=\"${MAIL_USER}\"#" /opt/local/var/vmail/.env
-  end
+  fi
   
   if mdata-get mail_auth_pass 1>/dev/null 2>&1; then
     MAIL_PASSWORD=`mdata-get mail_auth_pass`
     sed -i "s#MAILPDW=\"pwd\"#MAILPDW=\"${MAIL_PASSWORD}\"#" /opt/local/var/vmail/.env
-  end
+  fi
   
   if mdata-get postfix_mysqluser 1>/dev/null 2>&1; then
     MYSQL_USER=`mdata-get postfix_mysqluser`
