@@ -127,6 +127,7 @@ chown -R root:root /opt/local/etc/ssl
 echo "* add additional daemons"
 svccfg import /opt/local/lib/svc/manifest/policyd-weight.xml
 svcadm enable svc:/network/policyd-weight:default
+svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
