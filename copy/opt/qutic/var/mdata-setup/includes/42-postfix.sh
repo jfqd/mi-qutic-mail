@@ -1,3 +1,8 @@
+sed -i "s/=postfix_mysqlhost/=127.0.0.1/" /opt/local/etc/postfix/sql/mysql_sender_login_maps
+sed -i "s/=postfix_mysqlhost/=127.0.0.1/" /opt/local/etc/postfix/sql/mysql_virtual_alias_maps
+sed -i "s/=postfix_mysqlhost/=127.0.0.1/" /opt/local/etc/postfix/sql/mysql_virtual_mailbox_domains
+sed -i "s/=postfix_mysqlhost/=127.0.0.1/" /opt/local/etc/postfix/sql/mysql_virtual_mailbox_maps
+
 if mdata-get postfix_mysqluser 1>/dev/null 2>&1; then
   MYSQLUSER=`mdata-get postfix_mysqluser`
   sed -i "s/=postfix_mysqluser/=${MYSQLUSER}/" /opt/local/etc/postfix/sql/mysql_sender_login_maps
