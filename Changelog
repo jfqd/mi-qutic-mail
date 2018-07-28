@@ -4,6 +4,7 @@
 
 * switch to pkgsrc 2018Q2
 * add clamav-unofficial-sigs
+* add policyd
 * add autoresponder
 * add vmail-cleanup
 * add mdata-config

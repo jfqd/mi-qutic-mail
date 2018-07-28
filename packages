@@ -5,7 +5,6 @@ postfix-mysql
 postfix-pcre
 #
 policyd
-policyd-weight
 #
 amavisd-new
 #

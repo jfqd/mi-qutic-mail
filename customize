@@ -73,7 +73,6 @@ mv /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
 mv /opt/local/etc/amavisd.conf /opt/local/etc/amavisd.conf.bak
 mv /opt/local/etc/clamd.conf /opt/local/etc/clamd.conf.bak
 mv /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
-mv /opt/local/etc/policyd-weight.conf /opt/local/etc/policyd-weight.conf.bak
 mv /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 mv /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 mv /opt/local/etc/spamassassin/local.cf /opt/local/etc/spamassassin/local.cf.bak
@@ -84,7 +83,6 @@ mv /opt/local/etc/tmp/master.cf /opt/local/etc/postfix/master.cf
 mv /opt/local/etc/tmp/amavisd.conf /opt/local/etc/amavisd.conf
 mv /opt/local/etc/tmp/clamd.conf /opt/local/etc/clamd.conf
 mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
-mv /opt/local/etc/tmp/policyd-weight.conf /opt/local/etc/policyd-weight.conf
 mv /opt/local/etc/tmp/policyd.conf /opt/local/etc/policyd.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
@@ -105,6 +103,9 @@ chown root:root /opt/local/etc/dovecot/dovecot-sql.conf
 
 echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
+chown clamav:clamav /var/log/clamav-unofficial-sigs
+mkdir -p /var/db/clamav-unofficial-sigs
+chown clamav:clamav /var/db/clamav-unofficial-sigs
 
 echo "* Setup amavisn clamav"
 usermod -G amavis clamav
@@ -125,8 +126,6 @@ chmod 0750 /opt/local/etc/ssl/private
 chown -R root:root /opt/local/etc/ssl
 
 echo "* add additional daemons"
-svccfg import /opt/local/lib/svc/manifest/policyd-weight.xml
-svcadm enable svc:/network/policyd-weight:default
 svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* setup autoresponder"
