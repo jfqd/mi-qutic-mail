@@ -29,8 +29,8 @@ clamav
 spamassassin
 pyzor
 #
-dovecot
-dovecot-mysql
+## dovecot
+## dovecot-mysql
 # dovecot-pigeonhole
 #
 fail2ban

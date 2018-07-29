@@ -28,6 +28,16 @@ sed -i 's#/var/run/fail2ban/fail2ban.sock#/var/run/fail2ban.sock#' /opt/local/et
 sed -i 's#/var/run/fail2ban/fail2ban.pid#/var/run/fail2ban.pid#' /opt/local/etc/fail2ban/fail2ban.conf
 svcadm enable svc:/network/fail2ban:default
 
+echo "* Install latest dovecot version"
+curl -s https://pkgsrc.qutic.com/packages/SmartOS/extras/dovecot-2.3.2.1.tgz > /root/dovecot-2.3.2.1.tgz
+curl -s https://pkgsrc.qutic.com/packages/SmartOS/extras/dovecot-mysql-2.3.2.1.tgz > dovecot-mysql-2.3.2.1.tgz
+sed -i '/VERIFIED_INSTALLATION=always/#VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
+pkg_add /root/dovecot-2.3.2.1.tgz
+pkg_add /root/dovecot-mysql-2.3.2.1.tgz
+sed -i '/#VERIFIED_INSTALLATION=always/VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
+rm root/dovecot-2.3.2.1.tgz
+rm /root/dovecot-mysql-2.3.2.1.tgz
+
 echo "* Setup vmail"
 groupadd -g 155 vmail
 useradd -m -s /usr/bin/false -d /var/mail -u 155 -g vmail vmail
