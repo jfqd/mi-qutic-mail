@@ -40,7 +40,7 @@ case $1 in
 		/opt/local/bin/fail2ban-client status &
 	;;
 	*)
-		echo "Usage: /lib/svc/method/fail2ban start|stop|status|refresh|restart|reload|force-reload" >&2
+		echo "Usage: /opt/local/lib/svc/method/fail2ban start|stop|status|refresh|restart|reload|force-reload" >&2
 		exit 2
 	;;
 esac
