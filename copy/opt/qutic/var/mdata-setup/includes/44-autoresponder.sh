@@ -31,6 +31,6 @@ if mdata-get mail_smarthost 1>/dev/null 2>&1; then
   sed -i "s#REDIS_DB=\"1\"#REDIS_DB=\"10\"#" /opt/local/var/vmail/.env
   
   # setup cron
-  CRON='0,5,10,15,20,25,30,35,40,45,50,55 * * * * sudo -u vmail /var/lib/vmail/autoresponder 1>>/var/log/autoresponder.log'
+  CRON='0,5,10,15,20,25,30,35,40,45,50,55 * * * * sudo -u vmail /opt/local/var/vmail/autoresponder 1>>/var/log/autoresponder.log'
   (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
 fi
