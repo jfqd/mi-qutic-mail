@@ -57,7 +57,7 @@ sub configure {
 	return if (@_);
 
 	# Set defaults
-	$cfg->{'config_file'} = "opt/local/etc/cbpolicyd/cluebringer.conf";
+	$cfg->{'config_file'} = "/opt/local/etc/cluebringer.conf";
 	$cfg->{'cache_file'} = '/var/run/cbpolicyd/cache';
 	$cfg->{'track_sessions'} = 0;
 

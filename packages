@@ -10,6 +10,7 @@ p5-Net-DNS
 p5-Config-IniFiles
 p5-Cache-FastMmap
 p5-DBI
+p5-DBD-mysql57
 p5-Mail-SPF
 #
 amavisd-new

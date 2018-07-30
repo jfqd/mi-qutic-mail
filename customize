@@ -31,11 +31,11 @@ svcadm enable svc:/network/fail2ban:default
 echo "* Install latest dovecot version"
 curl -s https://pkgsrc.qutic.com/packages/SmartOS/extras/dovecot-2.3.2.1.tgz > /root/dovecot-2.3.2.1.tgz
 curl -s https://pkgsrc.qutic.com/packages/SmartOS/extras/dovecot-mysql-2.3.2.1.tgz > dovecot-mysql-2.3.2.1.tgz
-sed -i '/VERIFIED_INSTALLATION=always/#VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
+sed -i 's/VERIFIED_INSTALLATION=always/#VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
 pkg_add /root/dovecot-2.3.2.1.tgz
 pkg_add /root/dovecot-mysql-2.3.2.1.tgz
-sed -i '/#VERIFIED_INSTALLATION=always/VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
-rm root/dovecot-2.3.2.1.tgz
+sed -i 's/#VERIFIED_INSTALLATION=always/VERIFIED_INSTALLATION=always/' /opt/local/etc/pkg_install.conf
+rm /root/dovecot-2.3.2.1.tgz
 rm /root/dovecot-mysql-2.3.2.1.tgz
 
 echo "* Setup vmail"
@@ -138,7 +138,7 @@ echo "* setup policyd"
 groupadd -g 904 policyd
 useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
 mkdir /var/log/cbpolicyd
-mkdir /var/run/cbpolicyd
+mkdir -p /var/run/cbpolicyd
 chown policyd:policyd /var/log/cbpolicyd /var/run/cbpolicyd
 svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
@@ -161,6 +161,8 @@ rm /root/customize
 /usr/sbin/svccfg delete svc:/pkgsrc/nullmailer
 rm /var/zoneinit/includes/17-nullmailer.sh
 rm -rf /var/log/nullmailer
+userdel nullmail
+groupdel nullmail
 
 # Prepare image for provisioning
 sm-prepare-image -y
