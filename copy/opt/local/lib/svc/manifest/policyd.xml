@@ -14,7 +14,7 @@
        <service_fmri value='svc:/network/loopback' />
     </dependency>
 
-    <dependency name='net' grouping='require_all' restart_on='none' type='service'>
+    <dependency name='spiped' grouping='require_all' restart_on='none' type='service'>
        <service_fmri value='svc:/spiped/percona:default' />
     </dependency>
 
