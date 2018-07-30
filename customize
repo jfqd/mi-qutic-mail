@@ -111,6 +111,10 @@ chmod 0640 /opt/local/etc/postfix/sql/*
 chown -R root:postfix /opt/local/etc/postfix/sql
 chmod 0600 /opt/local/etc/dovecot/dovecot-sql.conf
 chown root:root /opt/local/etc/dovecot/dovecot-sql.conf
+touch /var/log/dovecot.log
+chmod 0644 /var/log/dovecot.log
+touch /var/log/fail2ban.log
+chmod 0644 /var/log/fail2ban.log
 
 echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
@@ -119,7 +123,7 @@ mkdir -p /var/db/clamav-unofficial-sigs
 chown clamav:clamav /var/db/clamav-unofficial-sigs
 
 echo "* Setup amavisn clamav"
-usermod -G amavis clamav
+usermod -G amavis,nobody clamav
 usermod -G clamav amavis
 
 echo "* setup spiped"
