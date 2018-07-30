@@ -1,0 +1,16 @@
+[amavis]
+  env.amavislog  /var/log/mail.log
+  env.logtail    /opt/local/bin/logtail
+  group          root
+
+[spamassassin]
+  env.logfile    mail.log
+
+[fail2ban]
+  env.client     /opt/local/bin/fail2ban-client
+
+[dovecot]
+  env.LOGFILE    /var/log/dovecot.log
+
+[clamav]
+  user           clamav

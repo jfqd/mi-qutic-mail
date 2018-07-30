@@ -30,6 +30,7 @@ gtar
 xz
 #
 clamav
+logcheck
 # clamav-unofficial-sigs
 #
 spamassassin
