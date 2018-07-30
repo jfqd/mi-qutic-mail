@@ -47,4 +47,20 @@ if mdata-get masquerade_domains 1>/dev/null 2>&1; then
   sed -i "s/= example.com example.net/= ${MASQUERADE}/" /opt/local/etc/postfix/main.cf
 fi
 
+if mdata-get postfix_tls_only 1>/dev/null 2>&1; then
+  if [ "`mdata-get postfix_tls_only`" = "true" ]; then
+    gsed -i \
+         -e "s/smtpd_tls_security_level         = may/smtpd_tls_security_level         = encrypt/" \
+         -e "s/smtpd_tls_ciphers                = high/smtpd_tls_ciphers                = strong/" \
+         -e "s/smtpd_tls_protocols              = !SSLv2,!SSLv3/smtpd_tls_protocols              = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+         -e "s/smtpd_tls_mandatory_protocols    = !SSLv2,!SSLv3/smtpd_tls_mandatory_protocols    = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+         -e "s/smtp_tls_security_level          = may/smtp_tls_security_level          = encrypt/" \
+         -e "s/smtp_tls_protocols               = !SSLv2,!SSLv3/smtp_tls_protocols               = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+         -e "s/smtp_tls_mandatory_protocols     = !SSLv2,!SSLv3/smtp_tls_mandatory_protocols     = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+         -e "s/tlsproxy_tls_protocols           = !SSLv2,!SSLv3/tlsproxy_tls_protocols           = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+         -e "s/tlsproxy_tls_mandatory_protocols = !SSLv2,!SSLv3/tlsproxy_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1/" \
+    /opt/local/etc/postfix/main.cf
+  fi
+fi
+
 svcadm enable svc:/pkgsrc/postfix:default
