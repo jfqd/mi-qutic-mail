@@ -14,7 +14,7 @@
        <service_fmri value='svc:/network/loopback' />
     </dependency>
 
-    <exec_method type='method' name='start' exec='/opt/local/libexec/policyd/policyd -c /opt/local/etc/policyd.conf' timeout_seconds='-1'>
+    <exec_method type='method' name='start' exec='/opt/local/libexec/cbpolicyd' timeout_seconds='-1'>
        <method_context>
          <method_credential user='root' group='root' />
        </method_context>

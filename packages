@@ -3,11 +3,16 @@
 postfix
 postfix-mysql
 postfix-pcre
-#
-policyd
+# policys-requirements
+p5-Net-Server
+p5-Net-CIDR
+p5-Net-DNS
+p5-Config-IniFiles
+p5-Cache-FastMmap
+p5-DBI
+p5-Mail-SPF
 #
 amavisd-new
-#
 unzoo
 xbin
 unrar
@@ -31,7 +36,6 @@ pyzor
 #
 ## dovecot
 ## dovecot-mysql
-# dovecot-pigeonhole
 #
 fail2ban
 spiped

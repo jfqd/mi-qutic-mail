@@ -83,7 +83,6 @@ mv /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
 mv /opt/local/etc/amavisd.conf /opt/local/etc/amavisd.conf.bak
 mv /opt/local/etc/clamd.conf /opt/local/etc/clamd.conf.bak
 mv /opt/local/etc/freshclam.conf /opt/local/etc/freshclam.conf.bak
-mv /opt/local/etc/policyd.conf /opt/local/etc/policyd.conf.bak
 mv /opt/local/etc/dovecot/dovecot.conf /opt/local/etc/dovecot/dovecot.conf.bak
 mv /opt/local/etc/spamassassin/local.cf /opt/local/etc/spamassassin/local.cf.bak
 
@@ -93,7 +92,7 @@ mv /opt/local/etc/tmp/master.cf /opt/local/etc/postfix/master.cf
 mv /opt/local/etc/tmp/amavisd.conf /opt/local/etc/amavisd.conf
 mv /opt/local/etc/tmp/clamd.conf /opt/local/etc/clamd.conf
 mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
-mv /opt/local/etc/tmp/policyd.conf /opt/local/etc/policyd.conf
+mv /opt/local/etc/tmp/cluebringer.conf /opt/local/etc/cluebringer.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 rm -rf /opt/local/etc/tmp/
@@ -123,7 +122,7 @@ usermod -G clamav amavis
 
 echo "* setup spiped"
 groupadd -g 120 spiped
-useradd -m -s /usr/bin/false -d / -u 120 -g spiped spiped
+useradd -m -s /usr/bin/false -d /nonexistent -u 120 -g spiped spiped
 dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
 chmod 0640 /etc/ssh/spiped.key
 chown root:spiped /etc/ssh/spiped.key
@@ -135,7 +134,12 @@ chmod 0755 /opt/local/etc/ssl/
 chmod 0750 /opt/local/etc/ssl/private
 chown -R root:root /opt/local/etc/ssl
 
-echo "* add additional daemons"
+echo "* setup policyd"
+groupadd -g 904 policyd
+useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
+mkdir /var/log/cbpolicyd
+mkdir /var/run/cbpolicyd
+chown policyd:policyd /var/log/cbpolicyd /var/run/cbpolicyd
 svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* setup autoresponder"
