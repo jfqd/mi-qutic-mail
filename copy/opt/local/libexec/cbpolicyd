@@ -58,13 +58,13 @@ sub configure {
 
 	# Set defaults
 	$cfg->{'config_file'} = "/opt/local/etc/cluebringer.conf";
-	$cfg->{'cache_file'} = '/var/run/cbpolicyd/cache';
+	$cfg->{'cache_file'} = '/var/cbpolicyd/cache';
 	$cfg->{'track_sessions'} = 0;
 
 	$server->{'timeout_idle'} = 1015;
 	$server->{'timeout_busy'} = 115;
 	$server->{'background'} = "yes";
-	$server->{'pid_file'} = "/var/run/cbpolicyd/cbpolicyd.pid";
+	$server->{'pid_file'} = "/var/cbpolicyd/cbpolicyd.pid";
 	$server->{'log_level'} = 2;
 	$server->{'log_file'} = "/var/log/cbpolicyd/cbpolicyd.log";
 

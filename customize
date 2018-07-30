@@ -138,8 +138,8 @@ echo "* setup policyd"
 groupadd -g 904 policyd
 useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
 mkdir /var/log/cbpolicyd
-mkdir -p /var/run/cbpolicyd
-chown policyd:policyd /var/log/cbpolicyd /var/run/cbpolicyd
+mkdir -p /var/cbpolicyd
+chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
 svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* setup autoresponder"
