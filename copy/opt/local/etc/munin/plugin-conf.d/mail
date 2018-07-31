@@ -1,7 +1,5 @@
 [amavis]
-  env.amavislog  /var/log/mail.log
-  env.logtail    /opt/local/bin/logtail
-  group          root
+  user           root
 
 [spamassassin]
   env.logfile    mail.log
@@ -13,4 +11,4 @@
   env.LOGFILE    /var/log/dovecot.log
 
 [clamav]
-  user           clamav
+  user           root

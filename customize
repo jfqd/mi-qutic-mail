@@ -23,6 +23,7 @@ MUNIN_PLUGINS="
 
 echo "* Activate munin plugins"
 /opt/qutic/bin/munin-node-plugins ${MUNIN_PLUGINS}
+rm /opt/local/etc/munin/plugins/cert_expire
 
 echo "* Import fail2ban smf"
 svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
@@ -123,7 +124,7 @@ mkdir -p /var/db/clamav-unofficial-sigs
 chown clamav:clamav /var/db/clamav-unofficial-sigs
 
 echo "* Setup amavisn clamav"
-usermod -G amavis,nobody clamav
+usermod -G amavis clamav
 usermod -G clamav amavis
 
 echo "* setup spiped"
