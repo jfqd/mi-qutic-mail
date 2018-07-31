@@ -5,7 +5,7 @@
   "organization": "qutic development",
   "brand":        "mailserver instance",
   "homepage":     "https://github.com/jfqd/mi-qutic-mail",
-  "base":         "496427b6-90db-11e8-99cc-e3b0a0531eb7",
+  "base":         "5d541d8e-948d-11e8-af19-ff9be7f5cc6f",
   "customer_metadata": {
     "admin_authorized_keys": {"type": "text", "description": "SSH public authorized key(s) for the admin user"},
     "root_authorized_keys":  {"type": "text", "description": "SSH public authorized key(s) for the root user"},
