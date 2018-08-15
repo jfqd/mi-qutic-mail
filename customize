@@ -98,6 +98,7 @@ mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
 mv /opt/local/etc/tmp/cluebringer.conf /opt/local/etc/cluebringer.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
+mv /opt/local/etc/tmp/mailer.conf /etc/mailer.conf
 rm -rf /opt/local/etc/tmp/
 
 echo "* Create Log folder for clamav"
