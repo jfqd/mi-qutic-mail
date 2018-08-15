@@ -1,0 +1,33 @@
+#!/usr/bin/bash -e
+
+. /lib/svc/share/smf_include.sh
+
+set -e
+
+AMAVIS=/opt/local/sbin/amavisd
+
+ENV="/usr/bin/env -i LANG=C PATH=/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+case $1 in
+'start')
+        eval $ENV $AMAVIS start &
+        ;;
+'stop')
+        eval $ENV $AMAVIS stop &
+        ;;
+'restart')
+        eval $ENV $AMAVIS stop &
+        sleep 2
+        eval $ENV $AMAVIS start &
+        ;;
+'reload')
+        eval $ENV $AMAVIS stop &
+        sleep 2
+        eval $ENV $AMAVIS start &
+        ;;
+*)
+
+       echo "Usage: $0 { start | stop | restart | reload }"
+       exit 1
+        ;;
+esac

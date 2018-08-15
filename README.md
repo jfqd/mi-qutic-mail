@@ -48,13 +48,10 @@ vmadm create << EOF
   "quota":                 20,
   "cpu_cap":              200,
   "customer_metadata": {
-    "admin_authorized_keys": "your-long-key",
-    "root_authorized_keys":  "your-long-key",
     "munin_master_allow":    "munin-master.example.com",
     "nagios_allow":          "10.10.10.0/24",
     "logstash_redis":        "redis://10.10.10.10:6379/0,redis://10.10.10.11:6379/0",
-    "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr",
-    "mail_ssl":              "certificat-with-encoded-linebreaks"
+    "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr"
   }
 }
 EOF
@@ -63,8 +60,9 @@ EOF
 The main configuration of all components is done via ansible and not part of this project!
 You should adjust at least the following config files to your needs:
 
-* amavisd-new.conf
+* amavisd.conf
 * clamd.conf
+* cluebringer.conf
 * dovecot.conf
 * freshclam.conf
 * fail2ban/jail.local

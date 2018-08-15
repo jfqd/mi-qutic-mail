@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+ip = ARGV.shift || nil
+release = ARGV.shift || false
+
+if !ip.nil? && /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/\d{1,2})?$/.match(ip)
+  ip_with_cidr = ip.include?("/") ? ip : "#{ip}/32"
+  if release == false
+    %x{ echo 'block in log quick from #{ip_with_cidr}' | /usr/sbin/ipf -f - }
+    puts "blocked ip: #{ip}"
+  else
+    %x{ echo 'block in log quick from #{ip_with_cidr}' | /usr/sbin/ipf -r -f - }
+    puts "released ip: #{ip}"
+  end
+else
+  puts %{usage: fw-block ip/range (10.10.10.10/32)}
+  exit 1
+end
+
+exit 0

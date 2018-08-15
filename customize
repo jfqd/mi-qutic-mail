@@ -58,7 +58,7 @@ chown clamav:clamav /var/run/clamd
 
 echo "* Create spamd group and user"
 groupadd spamd
-useradd -d /var/spamassassin -c "spamassassin spamd user" -s /usr/bin/false -g spamd spamd
+useradd -d /var/spamassassin -c "spamassassin spamd user" -s /usr/bin/bash -g spamd spamd
 passwd -N spamd
 
 echo "* Update permissions for spamassassin folders"
@@ -152,6 +152,7 @@ svccfg import /opt/local/lib/svc/manifest/policyd.xml
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
+sed -i 's#/var/lib/vmail/autoresponder.rbk#/opt/local/var/vmail/autoresponder.rb#' /opt/local/var/vmail/autoresponder
 gem install redis
 gem install dotenv
 gem install mail
@@ -161,6 +162,9 @@ chmod 0640 /opt/local/var/vmail/.env
 chown root:vmail /opt/local/var/vmail/.env
 touch /var/log/autoresponder.log
 chown vmail:root /var/log/autoresponder.log
+
+echo "* import amavisd.xml"
+svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 
 # Clean up
 echo "* Cleaning up."
