@@ -2,7 +2,8 @@
 sudo -u spamd /opt/local/bin/sa-update
 
 # create cronjob for sa-update
-CRON='42 7 * * * sudo -u spamd /opt/local/bin/sa-update && kill -SIGHUP $(cat /var/spamassassin/spamd.pid)'
+CRON='35 7 * * * sudo -u spamd /opt/local/bin/sa-update --nogpg --channel spamassassin.heinlein-support.de
+42 7 * * * sudo -u spamd /opt/local/bin/sa-update && /usr/sbin/svcadm restart svc:/pkgsrc/amavisd:default'
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
 
 # Run pyzor discover
