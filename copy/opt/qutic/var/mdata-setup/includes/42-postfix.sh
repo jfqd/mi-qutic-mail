@@ -29,7 +29,9 @@ fi
 
 if mdata-get postfix_mynetworks 1>/dev/null 2>&1; then
   MYNETWORK=`mdata-get postfix_mynetworks`
-  sed -i "s/= 127.0.0.1/= ${MYNETWORK}/" /opt/local/etc/postfix/main.cf
+  sed -i \
+      "s/mynetworks                       = 127.0.0.1/mynetworks                       = ${MYNETWORK}/" \
+      /opt/local/etc/postfix/main.cf
 fi
 
 if mdata-get postfix_hostname 1>/dev/null 2>&1; then
