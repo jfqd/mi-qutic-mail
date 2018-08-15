@@ -152,7 +152,7 @@ svccfg import /opt/local/lib/svc/manifest/policyd.xml
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
-sed -i 's#/var/lib/vmail/autoresponder.rbk#/opt/local/var/vmail/autoresponder.rb#' /opt/local/var/vmail/autoresponder
+sed -i 's#/var/lib/vmail#/opt/local/var/vmail#' /opt/local/var/vmail/autoresponder
 gem install redis
 gem install dotenv
 gem install mail
