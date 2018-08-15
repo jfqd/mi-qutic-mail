@@ -10,5 +10,5 @@ fi
 
 svcadm enable svc:/network/policyd:default
 
-CRON='0 * * * * /opt/local/libexec/cbpadmin --cleanup'
+CRON='0 * * * * /opt/local/libexec/cbpadmin --cleanup 1>/dev/null'
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
