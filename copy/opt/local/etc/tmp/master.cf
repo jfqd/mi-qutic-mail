@@ -96,26 +96,19 @@ maildrop  unix  -       n       n       -       -       pipe
 #  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
 
-# send mail to amavis
-smtp-amavis    unix    -    -    n    -    2    smtp
-  -o smtpd_tls_security_level=none
-  -o smtp_data_done_timeout=1200
-  -o smtp_send_xforward_command=yes
-  -o disable_dns_lookups=yes
-  -o max_use=20
-
 # receive back from amavis
 127.0.0.1:10025    inet    n    -    n    -    -    smtpd
   -o content_filter=
   -o smtpd_proxy_filter=
+  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
   -o smtpd_tls_security_level=none
   -o smtpd_restriction_classes=
   -o smtpd_delay_reject=no
-  -o smtpd_client_restrictions=permit_sasl_authenticated,permit_mynetworks,reject
+  -o smtpd_client_restrictions=
   -o smtpd_helo_restrictions=
   -o smtpd_sender_restrictions=
   -o smtpd_recipient_restrictions=permit_mynetworks,reject
-  -o smtpd_data_restrictions=reject_unauth_pipelining
+  -o smtpd_data_restrictions=
   -o smtpd_end_of_data_restrictions=
   -o mynetworks=127.0.0.0/8
   -o smtpd_error_sleep_time=0
