@@ -107,6 +107,8 @@ chown clamav:clamav /var/log/clamav
 chmod 0755 /var/log/clamav
 
 echo "* Set Folder rights"
+chmod 0640 /opt/local/etc/cluebringer.conf
+chown root:policyd /opt/local/etc/cluebringer.conf
 mkdir -p /opt/local/etc/postfix/sql
 chmod 0750 /opt/local/etc/postfix/sql
 chmod 0640 /opt/local/etc/postfix/sql/*
