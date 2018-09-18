@@ -99,6 +99,7 @@ mv /opt/local/etc/tmp/cluebringer.conf /opt/local/etc/cluebringer.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 mv /opt/local/etc/tmp/mailer.conf /etc/mailer.conf
+mv /opt/local/etc/tmp/my.cnf /root/.my.cnf
 rm -rf /opt/local/etc/tmp/
 
 echo "* Create Log folder for clamav"
@@ -119,6 +120,7 @@ touch /var/log/dovecot.log
 chmod 0644 /var/log/dovecot.log
 touch /var/log/fail2ban.log
 chmod 0644 /var/log/fail2ban.log
+chmod 0600 /root/.my.cnf
 
 echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
