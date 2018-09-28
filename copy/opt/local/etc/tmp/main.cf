@@ -30,6 +30,7 @@ append_dot_mydomain              = no
 masquerade_domains               = example.com
 maximal_queue_lifetime           = 3d
 bounce_queue_lifetime            = 3d
+smtpd_proxy_timeout              = 100s
 smtpd_use_tls                    = yes
 smtpd_tls_security_level         = may
 smtpd_tls_auth_only              = yes
