@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 # shellcheck disable=SC2154
 # shellcheck disable=SC2128
 ################################################################################
@@ -29,6 +29,7 @@
 
 ################################################################################
 
+export PATH=/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin
 
 # Detect to make sure the entire script is avilable, fail if the script is missing contents
 if [ "$(tail -n 1 "$0" | head -n 1 | cut -c 1-7)" != "exit \$?" ] ; then

@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+/usr/sbin/svcadm restart svc:/pkgsrc/clamav:clamd
+exit 0
