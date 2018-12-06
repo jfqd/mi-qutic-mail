@@ -28,6 +28,8 @@ gzip
 bunzip
 gtar
 xz
+p7zip
+lzma
 #
 clamav
 logcheck
