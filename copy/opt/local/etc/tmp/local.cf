@@ -95,3 +95,12 @@ ifplugin Mail::SpamAssassin::Plugin::Shortcircuit
 # shortcircuit BAYES_00                ham
 
 endif # Mail::SpamAssassin::Plugin::Shortcircuit
+
+if Mail::SpamAssassin::Plugin::SPF
+
+spf_timeout 5
+
+# whitelist_from_spf joe@example.com fred@example.com
+# whitelist_from_spf *@example.com
+
+endif # Mail::SpamAssassin::Plugin::SPF
