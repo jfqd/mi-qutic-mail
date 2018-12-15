@@ -16,7 +16,7 @@
 #   modifying the original message (0: off, 2: use text/plain instead)
 #
 # report_safe 1
-report_safe 0
+report_safe 1
 
 #   Set which networks or hosts are considered 'trusted' by your mail
 #   server (i.e. not spammers)
@@ -38,6 +38,19 @@ required_score 5.0
 #
 use_bayes 1
 
+#   Use Bayes mysql database
+#
+bayes_store_module Mail::SpamAssassin::BayesStore::MySQL
+bayes_sql_dsn DBI:mysql:sa_bayes:localhost
+bayes_sql_username sa_user
+bayes_sql_password <sa_password>
+bayes_sql_override_username sa_user
+
+#   Directory and filename for Bayes databases.
+#   Several databases will be created, with this as the
+#   base directory and filename, with "_toks", "_seen", etc.
+#
+# bayes_path /var/amavis/.spamassassin/bayes
 
 #   Bayesian classifier auto-learning (default: 1)
 #
