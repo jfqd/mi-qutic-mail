@@ -12,6 +12,7 @@ p5-Cache-FastMmap
 p5-DBI
 p5-DBD-mysql57
 p5-Mail-SPF
+p5-DB_File
 #
 amavisd-new
 unzoo
@@ -30,6 +31,11 @@ gtar
 xz
 p7zip
 lzma
+binutils
+lrzip
+rpm2cpio
+cabextract
+tnef
 #
 clamav
 logcheck
@@ -38,8 +44,8 @@ logcheck
 spamassassin
 pyzor
 #
-## dovecot
-## dovecot-mysql
+dovecot
+dovecot-mysql
 #
 fail2ban
 spiped
