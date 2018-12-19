@@ -132,6 +132,10 @@ chmod 0644 /var/log/dovecot.log
 touch /var/log/fail2ban.log
 chmod 0644 /var/log/fail2ban.log
 chmod 0600 /root/.my.cnf
+mkdir -p /var/amavis/tmp
+mkdir -p /var/amavis/db
+mkdir -p /var/amavis/var
+chown -R amavis:amavis /var/amavis
 
 echo "* Setup clamav-unofficial-sigs"
 mkdir -p /var/log/clamav-unofficial-sigs
