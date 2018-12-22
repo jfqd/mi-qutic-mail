@@ -6,6 +6,7 @@ PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 set -o errexit
 
 AUTORESPONDER_VERSION="v0.1.0"
+YARA_RULES_VERSION="0.0.1"
 
 MUNIN_PLUGINS="
 	postfix_mailvolume
@@ -185,6 +186,9 @@ chown vmail:root /var/log/autoresponder.log
 
 echo "* import amavisd.xml"
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
+
+echo "* setup clamav yara-rules"
+curl -L -s https://github.com/jfqd/yara-rules/archive/v${YARA_RULES_VERSION}.tar.gz | gtar xz -C /var/clamav --strip-components=1
 
 # Clean up
 echo "* Cleaning up."
