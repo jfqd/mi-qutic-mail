@@ -170,6 +170,10 @@ mkdir -p /var/cbpolicyd
 chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
 svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
+echo "* setup policyd-spf"
+mkdir -p /opt/local/etc/python-policyd-spf
+cp /opt/local/etc/tmp/policyd-spf.conf /opt/local/etc/python-policyd-spf/policyd-spf.conf
+
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1

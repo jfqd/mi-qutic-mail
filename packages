@@ -46,6 +46,10 @@ pyzor
 #
 dovecot
 dovecot-mysql
+# spf, dkim, dmarc
+py36-policyd-spf
+opendkim
+opendmarc
 #
 fail2ban
 spiped
