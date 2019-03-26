@@ -14,11 +14,11 @@ if mdata-get mail_ssl 1>/dev/null 2>&1; then
   openssl crl2pkcs7 -nocrl -certfile "${SSL_PRIVATE}/cert.pem" | \
     openssl pkcs7 -print_certs -out "${SSL_HOME}/cert.crt"
   )
-  chmod 0644 "${SSL_HOME}"/cert.*
-  chmod 0440 "${SSL_PRIVATE}"/cert.*
 else
   /opt/qutic/bin/ssl-selfsigned.sh -d "${SSL_HOME}" -f cert
   mv "${SSL_HOME}"/cert.{key,pem} "${SSL_PRIVATE}"
-  mv "${SSL_HOME}"/cert.crt "${SSL_HOME}"/cert.pem
   rm "${SSL_HOME}"/cert.csr
 fi
+mv "${SSL_HOME}"/cert.crt "${SSL_HOME}"/cert.pem
+chmod 0644 "${SSL_HOME}"/cert.*
+chmod 0440 "${SSL_PRIVATE}"/cert.*
