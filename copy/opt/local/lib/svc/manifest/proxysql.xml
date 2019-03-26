@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <service_bundle type="manifest" name="export">
-  <service name="spiped/percona" type="service" version="1">
-    <create_default_instance enabled="true"/>
+  <service name="pkgsrc/proxysql" type="service" version="1">
+    <create_default_instance enabled="false" />
     
     <dependency name="network" grouping="require_all" restart_on="refresh" type="service">
       <service_fmri value="svc:/milestone/network:default"/>
@@ -13,10 +13,10 @@
     </dependency>
     
     <method_context>
-      <method_credential user="spiped" group="spiped"/>
+      <method_credential user="proxysql" group="proxysql"/>
     </method_context>
     
-    <exec_method type="method" name="start" exec="/opt/local/bin/spiped -F -e -s '[127.0.0.1]:13306' -t 127.0.0.1:23306 -k /etc/ssh/spiped.key" timeout_seconds="15"/>
+    <exec_method type="method" name="start" exec="/opt/local/bin/proxysql -f -c /opt/local/etc/proxysql.cnf" timeout_seconds="300" />
     <exec_method type="method" name="stop"  exec=":kill" timeout_seconds="60"/>
     
     <property_group name="application" type="application"></property_group>
@@ -27,7 +27,7 @@
     
     <template>
       <common_name>
-        <loctext xml:lang="C">symmetrically encrypted and authenticated pipes to percona host</loctext>
+        <loctext xml:lang="C">High-performance MySQL proxy</loctext>
       </common_name>
     </template>
     
