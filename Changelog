@@ -1,5 +1,17 @@
 # Changelog
 
+## 20181018.0
+
+* Move to pkgsrc trunk
+* add policyd-spf
+* add opendkim
+* add opendmarc
+* use amavisd-milter
+* setup clamav yara-rules
+* use mysql backend for bayes
+* include spiped mysql
+* include proxysql
+
 ## 18.2.0
 
 * switch to pkgsrc 2018Q2

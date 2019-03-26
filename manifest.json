@@ -1,11 +1,11 @@
 {
   "name":         "qutic-mail",
-  "version":      "18.2.0",
+  "version":      "20181018.0",
   "description":  "qutic mailserver image",
   "organization": "qutic development",
   "brand":        "mailserver instance",
   "homepage":     "https://github.com/jfqd/mi-qutic-mail",
-  "base":         "5d541d8e-948d-11e8-af19-ff9be7f5cc6f",
+  "base":         "703a9bca-4703-11e9-926d-c723ee384af0",
   "customer_metadata": {
     "admin_authorized_keys":   {"type": "text", "description": "SSH public authorized key(s) for the admin user"},
     "root_authorized_keys":    {"type": "text", "description": "SSH public authorized key(s) for the root user"},
@@ -37,7 +37,10 @@
     "postfix_hostname":        {"type": "text", "description": "external hostname of the box"},
     "postfix_tls_only":        {"type": "text", "description": "default: false, set to true on enable"},
     "masquerade_domains":      {"type": "text", "description": "postfix masquerade_domains"},
+    "proxysql_admin_pwd":      {"type": "text", "description": "proxysql admin password"},
+    "proxysql_monitor_pwd":    {"type": "text", "description": "proxysql monitor password"},
     "trusted_servers":         {"type": "text", "description": "list of trusted-servers for dmarc"},
-    "vmail_cleanup":           {"type": "text", "description": "default: false, set to true on enable"}
+    "vmail_cleanup":           {"type": "text", "description": "default: false, set to true on enable"},
+    "autoresponder":           {"type": "text", "description": "default: false, set to true on enable"}
   }
 }
