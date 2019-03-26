@@ -15,6 +15,12 @@ if mdata-get spiped_percona_host 1>/dev/null 2>&1; then
   svccfg import /opt/local/lib/svc/manifest/spiped-percona.xml
 fi
 
+if mdata-get spiped_percona_fallback 1>/dev/null 2>&1; then
+  SPIPED_PERCONA_FALLBACK=`mdata-get spiped_percona_fallback`
+  sed -i "s/-t 127.0.0.1:23306/-t $SPIPED_PERCONA_FALLBACK:23306/g" /opt/local/lib/svc/manifest/spiped-percona-fallback.xml
+  svccfg import /opt/local/lib/svc/manifest/spiped-percona-fallback.xml
+fi
+
 if mdata-get postfix_mysqluser 1>/dev/null 2>&1; then
   MYSQLUSER=`mdata-get postfix_mysqluser`
   sed -i "s/user = postfix_mysqluser/user = $MYSQLUSER/" /root/.my.cnf
