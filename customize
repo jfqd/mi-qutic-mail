@@ -180,6 +180,16 @@ cp /opt/local/etc/tmp/opendkim.conf /opt/local/etc/opendkim.conf
 echo "127.0.0.1" >> /var/db/opendkim/trusted_hosts
 svccfg import /opt/local/lib/svc/manifest/opendkim.xml
 
+echo "* setup opendmarc"
+groupadd -g 914 opendmarc
+useradd -m -s /usr/bin/false -d /nonexistent -u 914 -g opendmarc opendmarc
+mkdir -p /opt/local/etc/opendmarc
+echo "127.0.0.1" >> /opt/local/etc/opendmarc/ignore.hosts
+cp /opt/local/etc/tmp/opendmarc.conf /opt/local/etc/opendmarc/opendmarc.conf
+mkdir -p /var/run/opendmarc
+chown opendmarc:opendmarc /var/run/opendmarc
+svccfg import /opt/local/lib/svc/manifest/opendmarc.xml
+
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
