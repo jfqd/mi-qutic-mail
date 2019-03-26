@@ -15,6 +15,7 @@ p5-Mail-SPF
 p5-DB_File
 #
 amavisd-new
+amavisd-milter
 unzoo
 xbin
 unrar
