@@ -19,6 +19,16 @@ EOF
 chmod 0400 /root/.my.cnf
 fi
 
+if mdata-get percona_host 1>/dev/null 2>&1; then
+  PERCONA_HOST=`mdata-get percona_host`
+  sed -i "s/main.example.com/${PERCONA_HOST}/g" /opt/local/etc/proxysql.cnf
+fi
+
+if mdata-get percona_fallback 1>/dev/null 2>&1; then
+  PERCONA_FALLBACK=`mdata-get percona_fallback`
+  sed -i "s/backup.example.com/${PERCONA_FALLBACK}/g" /opt/local/etc/proxysql.cnf
+fi
+
 if mdata-get postfix_mysqluser 1>/dev/null 2>&1; then
   PROXY_DB_USER=`mdata-get postfix_mysqluser`
   sed -i "s#db-username#${PROXY_DB_USER}#" /opt/local/etc/proxysql.cnf

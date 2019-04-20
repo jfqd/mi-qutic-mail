@@ -9,14 +9,14 @@ if mdata-get spiped_redis_host 1>/dev/null 2>&1; then
   svccfg import /opt/local/lib/svc/manifest/spiped-redis.xml
 fi
 
-if mdata-get spiped_percona_host 1>/dev/null 2>&1; then
-  SPIPED_PERCONA_HOST=`mdata-get spiped_percona_host`
+if mdata-get percona_host 1>/dev/null 2>&1; then
+  SPIPED_PERCONA_HOST=`mdata-get percona_host`
   sed -i "s/-t 127.0.0.1:23306/-t $SPIPED_PERCONA_HOST:23306/g" /opt/local/lib/svc/manifest/spiped-percona.xml
   svccfg import /opt/local/lib/svc/manifest/spiped-percona.xml
 fi
 
-if mdata-get spiped_percona_fallback 1>/dev/null 2>&1; then
-  SPIPED_PERCONA_FALLBACK=`mdata-get spiped_percona_fallback`
+if mdata-get percona_fallback 1>/dev/null 2>&1; then
+  SPIPED_PERCONA_FALLBACK=`mdata-get percona_fallback`
   sed -i "s/-t 127.0.0.1:23306/-t $SPIPED_PERCONA_FALLBACK:23306/g" /opt/local/lib/svc/manifest/spiped-percona-fallback.xml
   svccfg import /opt/local/lib/svc/manifest/spiped-percona-fallback.xml
 fi
