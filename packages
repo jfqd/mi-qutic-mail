@@ -29,7 +29,7 @@ unzip
 gzip
 bunzip
 gtar
-xz
+# xz
 p7zip
 lzma
 binutils
