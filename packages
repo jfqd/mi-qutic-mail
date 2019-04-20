@@ -29,7 +29,7 @@ unzip
 gzip
 bunzip
 gtar
-# xz
+xz
 p7zip
 lzma
 binutils
@@ -55,9 +55,9 @@ opendmarc
 fail2ban
 spiped
 # autoresponder
-ruby24
-ruby24-mysql2
-ruby24-sequel
+ruby25
+ruby25-mysql2
+ruby25-sequel
 #
 # In the future we might switch to rspamd
 # https://www.rspamd.com/
