@@ -120,7 +120,6 @@ mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 mv /opt/local/etc/tmp/mailer.conf /etc/mailer.conf
 mv /opt/local/etc/tmp/my.cnf /root/.my.cnf
-rm -rf /opt/local/etc/tmp/
 
 echo "* Create Log folder for clamav"
 mkdir -p /var/log/clamav
@@ -225,6 +224,7 @@ curl -L -s https://github.com/jfqd/yara-rules/archive/v${YARA_RULES_VERSION}.tar
 
 # Clean up
 echo "* Cleaning up."
+rm -rf /opt/local/etc/tmp/
 rm /root/customize
 /usr/sbin/svccfg delete svc:/pkgsrc/nullmailer
 rm /var/zoneinit/includes/17-nullmailer.sh
