@@ -92,6 +92,14 @@ echo "* Create logging folder for spamd"
 mkdir /var/log/spamd
 chown -R spamd:spamd /var/log/spamd
 
+echo "* setup policyd"
+groupadd -g 904 policyd
+useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
+mkdir /var/log/cbpolicyd
+mkdir -p /var/cbpolicyd
+chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
+svccfg import /opt/local/lib/svc/manifest/policyd.xml
+
 echo "* Backup original config files"
 mv /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
 mv /opt/local/etc/postfix/master.cf /opt/local/etc/postfix/master.cf.bak
@@ -161,14 +169,6 @@ mkdir -p /opt/local/etc/ssl/private
 chmod 0755 /opt/local/etc/ssl/
 chmod 0750 /opt/local/etc/ssl/private
 chown -R root:root /opt/local/etc/ssl
-
-echo "* setup policyd"
-groupadd -g 904 policyd
-useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
-mkdir /var/log/cbpolicyd
-mkdir -p /var/cbpolicyd
-chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
-svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* setup policyd-spf"
 mkdir -p /opt/local/etc/python-policyd-spf
