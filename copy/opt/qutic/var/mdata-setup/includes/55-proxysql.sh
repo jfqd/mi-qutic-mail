@@ -42,8 +42,8 @@ fi
 svcadm enable svc:/pkgsrc/proxysql:default
 
 cat >> /root/.mysql_history << EOF
-UPDATE mysql_servers SET status='OFFLINE_HARD' WHERE port='13306';
-UPDATE mysql_servers SET status='ONLINE' WHERE port='13306';
+UPDATE mysql_servers SET status='OFFLINE_HARD' WHERE weight='100000';
+UPDATE mysql_servers SET status='ONLINE' WHERE weight='100000';
 LOAD MYSQL SERVERS TO RUNTIME;
 SAVE MYSQL SERVERS TO DISK;
 SELECT * FROM mysql_servers;
