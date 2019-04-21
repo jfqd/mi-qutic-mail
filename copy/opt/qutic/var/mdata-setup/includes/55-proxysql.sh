@@ -39,6 +39,16 @@ if mdata-get postfix_mysqlpassword 1>/dev/null 2>&1; then
   sed -i "s#db-password#${PROXY_DB_PWD}#g" /opt/local/etc/proxysql.cnf
 fi
 
+if mdata-get amavisd_mysqluser 1>/dev/null 2>&1; then
+  AMAVISD_DB_USER=`mdata-get amavisd_mysqluser`
+  sed -i "s#amavisd-user#${AMAVISD_DB_USER}#" /opt/local/etc/proxysql.cnf
+fi
+
+if mdata-get amavisd_mysqlpassword 1>/dev/null 2>&1; then
+  AMAVISD_DB_PWD=`mdata-get amavisd_mysqlpassword`
+  sed -i "s#amavisd-password#${AMAVISD_DB_PWD}#g" /opt/local/etc/proxysql.cnf
+fi
+
 svcadm enable svc:/pkgsrc/proxysql:default
 
 cat >> /root/.mysql_history << EOF
