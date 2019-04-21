@@ -189,6 +189,9 @@ mkdir -p /var/run/opendmarc
 chown opendmarc:opendmarc /var/run/opendmarc
 svccfg import /opt/local/lib/svc/manifest/opendmarc.xml
 
+echo "* setup amavisd-milter"
+svccfg import /opt/local/lib/svc/manifest/amavisd-milter.xml
+
 echo "* Setup proxysql";
 pkg_add https://download.qutic.com/extras/proxysql-1.4.7.tgz || true
 mkdir -p /opt/local/var/proxysql
