@@ -14,10 +14,6 @@
        <service_fmri value='svc:/network/loopback' />
     </dependency>
 
-    <dependency name='spiped' grouping='require_all' restart_on='none' type='service'>
-       <service_fmri value='svc:/spiped/percona:default' />
-    </dependency>
-
     <exec_method type='method' name='start' exec='/opt/local/libexec/cbpolicyd' timeout_seconds='-1'>
        <method_context>
          <method_credential user='root' group='root' />
