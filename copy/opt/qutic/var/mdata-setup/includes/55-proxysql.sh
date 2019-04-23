@@ -52,11 +52,10 @@ fi
 svcadm enable svc:/pkgsrc/proxysql:default
 
 cat >> /root/.mysql_history << EOF
-UPDATE mysql_servers SET status='OFFLINE_HARD' WHERE weight='100000';
-UPDATE mysql_servers SET status='ONLINE' WHERE weight='100000';
-LOAD MYSQL SERVERS TO RUNTIME;
-SAVE MYSQL SERVERS TO DISK;
-SELECT * FROM mysql_servers;
-SELECT * FROM stats.stats_mysql_connection_pool;
+_HiStOrY_V2_
+LOAD\040MYSQL\040SERVERS\040TO\040RUNTIME;
+SAVE\040MYSQL\040SERVERS\040TO\040DISK;
+SELECT\040*\040FROM\040mysql_servers;
+SELECT\040*\040FROM\040stats.stats_mysql_connection_pool;
 EOF
 chmod 0600 /root/.mysql_history

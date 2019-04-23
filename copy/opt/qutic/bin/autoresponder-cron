@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+DATE=$(date "+%Y-%m-%d")
+/opt/local/bin/grep Sending /var/log/autoresponder.log | /opt/local/bin/grep "${DATE}
