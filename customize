@@ -22,10 +22,6 @@ MUNIN_PLUGINS="
 	netstat
 "
 
-echo "* Get latest updatess"
-pkgin update
-pkgin -y upgrade || true
-
 echo "* Activate munin plugins"
 /opt/qutic/bin/munin-node-plugins ${MUNIN_PLUGINS}
 rm /opt/local/etc/munin/plugins/cert_expire
