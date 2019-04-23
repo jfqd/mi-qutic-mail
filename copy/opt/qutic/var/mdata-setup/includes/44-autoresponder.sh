@@ -13,8 +13,8 @@ if mdata-get mail_smarthost 1>/dev/null 2>&1; then
     sed -i "s#MAILPDW=\"pwd\"#MAILPDW=\"${MAIL_PASSWORD}\"#" /opt/local/var/vmail/.env
   fi
 
-  if mdata-get postfix_mysqluser 1>/dev/null 2>&1; then
-    MYSQL_USER=`mdata-get postfix_mysqluser`
+  if mdata-get autoresponder_mysqluser 1>/dev/null 2>&1; then
+    MYSQL_USER=`mdata-get autoresponder_mysqluser`
     sed -i "s#MYSQL_USER=\"user\"#MYSQL_USER=\"${MYSQL_USER}\"#" /opt/local/var/vmail/.env
   fi
 

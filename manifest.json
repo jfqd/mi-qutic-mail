@@ -43,6 +43,7 @@
     "proxysql_monitor_pwd":    {"type": "text", "description": "proxysql monitor password"},
     "trusted_servers":         {"type": "text", "description": "list of trusted-servers for dmarc"},
     "vmail_cleanup":           {"type": "text", "description": "default: false, set to true on enable"},
-    "autoresponder":           {"type": "text", "description": "default: false, set to true on enable"}
+    "autoresponder":           {"type": "text", "description": "default: false, set to true on enable"},
+    "autoresponder_mysqluser": {"type": "text", "description": "mysql user for autoresponder"}
   }
 }

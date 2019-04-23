@@ -98,6 +98,12 @@ mysql_users:
 		active = 1
 	},
 	{
+		username = "autoresponder-username"
+		password = "db-password"
+		default_hostgroup = 0
+		active = 1
+	},
+	{
 		username = "amavisd-user"
 		password = "amavisd-password"
 		default_hostgroup = 0
