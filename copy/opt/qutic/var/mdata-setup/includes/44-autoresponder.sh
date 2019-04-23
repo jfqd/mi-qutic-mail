@@ -34,6 +34,7 @@ if mdata-get mail_smarthost 1>/dev/null 2>&1; then
     # setup cron
     CRON='0,5,10,15,20,25,30,35,40,45,50,55 * * * * sudo -u vmail /opt/local/var/vmail/autoresponder 1>>/var/log/autoresponder.log'
     (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
-    # 59 23 * * * DATE=$(date "+%Y-%m-%d") ; /opt/local/bin/grep Sending /var/log/autoresponder.log | /opt/local/bin/grep "${DATE}"
+    CRON='59 23 * * * sudo -u vmail /opt/qutic/bin/autoresponder-cron'
+    (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
   fi
 fi
