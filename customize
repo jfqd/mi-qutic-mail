@@ -225,6 +225,14 @@ svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 echo "* setup clamav yara-rules"
 curl -L -s https://github.com/jfqd/yara-rules/archive/v${YARA_RULES_VERSION}.tar.gz | gtar xz -C /var/clamav --strip-components=1
 
+echo "* set mait logging to debug"
+sed -i 's/mail.info/mail.debug/g' /etc/syslog.conf
+
+echo "* patch amavisd signing bug"
+# see: https://lists.amavis.org/pipermail/amavis-users/2016-July/004428.html
+cd /opt/local/sbin
+patch -t -N < /opt/local/etc/tmp/amavid.patch 2>&1 1>/dev/null || true
+
 # Clean up
 echo "* Cleaning up."
 rm -rf /opt/local/etc/tmp/

@@ -58,6 +58,8 @@ spiped
 ruby25
 ruby25-mysql2
 ruby25-sequel
+# patch amavis dkim signing bug
+patch
 #
 # In the future we might switch to rspamd
 # https://www.rspamd.com/
