@@ -128,5 +128,4 @@ policy-spf_time_limit            = 3600
 dkim_milter                      = inet:127.0.0.1:12345
 dmarc_milter                     = inet:127.0.0.1:54321
 amavisd_milter                   = inet:127.0.0.1:8899
-submission_content_filter        = smtp:[127.0.0.1]:10024
 non_smtpd_milters                = inet:127.0.0.1:8899

@@ -18,17 +18,21 @@ smtp      inet  n       -       n       -       20       smtpd
 submission inet n       -       n       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_etrn_restrictions=reject
   -o tls_preempt_cipherlist=yes
   -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
-  -o content_filter=${submission_content_filter}
-  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_proxy_filter=127.0.0.1:10024
 465     inet  n       -       n       -       -       smtpd
   -o syslog_name=postfix/smtps
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_etrn_restrictions=reject
+  -o tls_preempt_cipherlist=yes
   -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
-  -o content_filter=${submission_content_filter}
-  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_proxy_filter=127.0.0.1:10024
 #628       inet  n       -       n       -       -       qmqpd
 pickup    fifo  n       -       n       60      1       pickup
   -o content_filter=
