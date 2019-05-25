@@ -1,5 +1,13 @@
 # Changelog
 
+## 20181018.1
+
+* use smtpd_proxy_filter
+* add amavisd dkim patch
+* add mysql-user for autoresponder
+* skip clamav-unofficial
+* use latest qutic-base image
+
 ## 20181018.0
 
 * Move to pkgsrc trunk
