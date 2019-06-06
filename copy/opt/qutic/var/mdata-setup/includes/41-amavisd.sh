@@ -25,3 +25,17 @@ if mdata-get postfix_mysqlpassword 1>/dev/null 2>&1; then
       "s/bayes_sql_password <sa_password>/bayes_sql_password ${MYSQLPWD}/" \
       /opt/local/etc/spamassassin/local.cf
 fi
+
+if mdata-get postfix_mysqluser 1>/dev/null 2>&1 && mdata-get postfix_mysqlpassword 1>/dev/null 2>&1 && mdata-get postfix_mysqldbname 1>/dev/null 2>&1; then
+  MYSQLUSER=`mdata-get postfix_mysqluser`
+  MYSQLPWD=`mdata-get postfix_mysqlpassword`
+  MYSQDB=`mdata-get postfix_mysqldbname`
+
+  sed -i \
+      "s/dbi:mysql:database=postfix;host=127.0.0.1:3306;user=postfix;password=passwort/dbi:mysql:database=${MYSQDB};host=127.0.0.1:3306;user=${MYSQLUSER};password=${MYSQLPWD}/" \
+      /opt/local/bin/create-local-domains-maps
+
+  chmod 0700 /opt/local/bin/create-local-domains-maps
+  CRON='0 * * * * /opt/local/bin/create-local-domains-maps'
+  (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+fi
