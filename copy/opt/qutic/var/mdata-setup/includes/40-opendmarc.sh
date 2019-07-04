@@ -29,3 +29,6 @@ if mdata-get postfix_postmaster 1>/dev/null 2>&1; then
 fi
 
 /usr/sbin/svcadm enable -r svc:/pkgsrc/opendmarc:default
+
+CRON='0 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-reporter 2>/dev/null'
+(crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
