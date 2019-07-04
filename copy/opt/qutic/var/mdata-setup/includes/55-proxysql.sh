@@ -49,6 +49,11 @@ if mdata-get amavisd_mysqlpassword 1>/dev/null 2>&1; then
   sed -i "s#amavisd-password#${AMAVISD_DB_PWD}#g" /opt/local/etc/proxysql.cnf
 fi
 
+if mdata-get opendmarc_mysqlpassword 1>/dev/null 2>&1; then
+  OPENDMARC_DB_PWD=`mdata-get opendmarc_mysqlpassword`
+  sed -i "s#opendmarc-password#${OPENDMARC_DB_PWD}#g" /opt/local/etc/proxysql.cnf
+fi
+
 if mdata-get autoresponder_mysqluser 1>/dev/null 2>&1; then
   AUTO_USER=`mdata-get autoresponder_mysqluser`
   sed -i "s#autoresponder-username#${AUTO_USER}#" /opt/local/etc/proxysql.cnf

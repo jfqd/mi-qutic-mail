@@ -108,5 +108,11 @@ mysql_users:
 		password = "amavisd-password"
 		default_hostgroup = 0
 		active = 1
+	},
+	{
+		username = "opendmarc"
+		password = "opendmarc-password"
+		default_hostgroup = 0
+		active = 1
 	}
 )

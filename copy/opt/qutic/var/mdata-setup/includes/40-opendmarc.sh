@@ -18,4 +18,14 @@ if mdata-get postfix_mynetworks 1>/dev/null 2>&1; then
   done
 fi
 
+if mdata-get opendmarc_mysqlpassword 1>/dev/null 2>&1; then
+  OPENDMARC_DB_PWD=`mdata-get opendmarc_mysqlpassword`
+  sed -i "s#opendmarc-password#${OPENDMARC_DB_PWD}#g" /opt/qutic/bin/opendmarc-reporter
+fi
+
+if mdata-get postfix_postmaster 1>/dev/null 2>&1; then
+  REPORT_EMAIL=`mdata-get postfix_postmaster`
+  sed -i "s#report@example.com#${REPORT_EMAIL}#g" /opt/qutic/bin/opendmarc-reporter
+fi
+
 /usr/sbin/svcadm enable -r svc:/pkgsrc/opendmarc:default
