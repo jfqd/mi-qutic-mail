@@ -30,12 +30,24 @@ if mdata-get postfix_mysqluser 1>/dev/null 2>&1 && mdata-get postfix_mysqlpasswo
   MYSQLUSER=`mdata-get postfix_mysqluser`
   MYSQLPWD=`mdata-get postfix_mysqlpassword`
   MYSQDB=`mdata-get postfix_mysqldbname`
-
+  
+  # get local domains
   sed -i \
       "s/dbi:mysql:database=postfix;host=127.0.0.1:3306;user=postfix;password=passwort/dbi:mysql:database=${MYSQDB};host=127.0.0.1:3306;user=${MYSQLUSER};password=${MYSQLPWD}/" \
       /opt/local/bin/create-local-domains-maps
 
   chmod 0700 /opt/local/bin/create-local-domains-maps
+  
   CRON='0 * * * * /opt/local/bin/create-local-domains-maps'
+  (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+
+  # should domain be signed?
+  sed -i \
+      "s/dbi:mysql:database=postfix;host=127.0.0.1:3306;user=postfix;password=passwort/dbi:mysql:database=${MYSQDB};host=127.0.0.1:3306;user=${MYSQLUSER};password=${MYSQLPWD}/" \
+      /opt/local/bin/create-dkim-domains-maps
+
+  chmod 0700 /opt/local/bin/create-dkim-domains-maps
+
+  CRON='5 * * * * /opt/local/bin/create-dkim-domains-maps'
   (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
 fi

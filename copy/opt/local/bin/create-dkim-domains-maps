@@ -1,0 +1,21 @@
+#!/opt/local/bin/perl
+# Perl-script zum Erstellen der Datei /opt/local/etc/postfix/all_local_domains_map mit den
+# Daten aus der mySQL-Datenbank "postfix"
+# https://dokuwiki.nausch.org/doku.php/centos:mail_c6:mta_9
+# Django : 2014-02-10
+#
+use DBI;
+use strict;
+my $config = "/opt/local/etc/postfix/all_dkim_domains_map";
+my $dbh = DBI->connect("dbi:mysql:database=postfix;host=127.0.0.1:3306;user=postfix;password=passwort") || die "Cannot connect to database\n", $DBI::Errstr;
+ 
+my $sth = $dbh->prepare("SELECT domain FROM domains WHERE dkim = '1'");
+ 
+$sth->execute || die "failed to execute:\n ", $DBI::Errstr;
+ 
+open (FH, "> $config") || die "Cannot open file\n";
+while (my @row = $sth->fetchrow_array) {
+    print FH join(', ', @row), "\n";
+}
+close FH;
+$dbh->disconnect;
