@@ -236,6 +236,16 @@ echo "* patch amavisd signing bug"
 cd /opt/local/sbin
 patch -t -N < /opt/local/etc/tmp/amavid.patch 2>&1 1>/dev/null || true
 
+echo "* fix cron log and logadm"
+chown root:nagios /var/cron/log
+chmod 0640 /var/cron/log
+sed -i \
+  's#/var/cron/log -c -s 512k -t /var/cron/olog#/var/cron/log -c -s 512k -m 0640 -o root -g nagios -t /var/cron/olog#' \
+  /etc/logadm.conf
+sed -i \
+  's|/var/log/mail.log -C 5|#/var/log/mail.log -C 5|' \
+  /etc/logadm.conf
+
 # Clean up
 echo "* Cleaning up."
 rm -rf /opt/local/etc/tmp/
