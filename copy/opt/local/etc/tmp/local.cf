@@ -72,6 +72,10 @@ pyzor_timeout 5
 
 # use_razor     0
 
+# New Scoring
+
+score DKIM_INVALID      1.5
+score SPF_FAIL          0.5
 
 #   Whether to decode non- UTF-8 and non-ASCII textual parts and recode
 #   them to UTF-8 before the text is given over to rules processing.
