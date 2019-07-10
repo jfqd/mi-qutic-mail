@@ -186,7 +186,10 @@ mkdir -p /opt/local/etc/opendmarc
 echo "127.0.0.1" >> /opt/local/etc/opendmarc/ignore.hosts
 cp /opt/local/etc/tmp/opendmarc.conf /opt/local/etc/opendmarc/opendmarc.conf
 mkdir -p /var/run/opendmarc
+mkdir -p /var/log/opendmarc
+chown opendmarc:opendmarc /var/log/opendmarc
 chown opendmarc:opendmarc /var/run/opendmarc
+chown root:opendmarc /opt/qutic/bin/opendmarc-*
 svccfg import /opt/local/lib/svc/manifest/opendmarc.xml
 
 echo "* setup amavisd-milter"

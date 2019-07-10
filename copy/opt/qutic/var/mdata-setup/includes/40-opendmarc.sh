@@ -20,15 +20,24 @@ fi
 
 if mdata-get opendmarc_mysqlpassword 1>/dev/null 2>&1; then
   OPENDMARC_DB_PWD=`mdata-get opendmarc_mysqlpassword`
+  sed -i "s#opendmarc-password#${OPENDMARC_DB_PWD}#g" /opt/qutic/bin/opendmarc-importer
   sed -i "s#opendmarc-password#${OPENDMARC_DB_PWD}#g" /opt/qutic/bin/opendmarc-reporter
 fi
 
 if mdata-get postfix_postmaster 1>/dev/null 2>&1; then
   REPORT_EMAIL=`mdata-get postfix_postmaster`
+  sed -i "s#report@example.com#${REPORT_EMAIL}#g" /opt/qutic/bin/opendmarc-importer
   sed -i "s#report@example.com#${REPORT_EMAIL}#g" /opt/qutic/bin/opendmarc-reporter
 fi
 
-/usr/sbin/svcadm enable -r svc:/pkgsrc/opendmarc:default
-
-CRON='0 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-reporter 2>/dev/null'
+CRON='0 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-importer 2>/dev/null 1>>/var/log/opendmarc/importer.log'
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+
+if mdata-get opendmarc_reporter 1>/dev/null 2>&1; then
+  if [ "`mdata-get opendmarc_reporter`" = "true" ]; then
+    CRON='15 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-reporter 2>/dev/null 1>>/var/log/opendmarc/reporter.log'
+    (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+  fi
+fi
+
+/usr/sbin/svcadm enable -r svc:/pkgsrc/opendmarc:default

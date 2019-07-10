@@ -40,6 +40,7 @@
     "amavisd_mysqluser":       {"type": "text", "description": "amavisd mysql-user"},
     "amavisd_mysqlpassword":   {"type": "text", "description": "amavisd mysql-password"},
     "opendmarc_mysqlpassword": {"type": "text", "description": "opendmarc mysql-password"},
+    "opendmarc_reporter":      {"type": "text", "description": "default: false, set to true on enable"},
     "proxysql_admin_pwd":      {"type": "text", "description": "proxysql admin password"},
     "proxysql_monitor_pwd":    {"type": "text", "description": "proxysql monitor password"},
     "trusted_servers":         {"type": "text", "description": "list of trusted-servers for dmarc"},

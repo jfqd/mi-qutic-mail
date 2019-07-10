@@ -7,34 +7,11 @@
 set -e
 
 # Database credentials
-OPENDMARC_DBHOST='localhost'
-OPENDMARC_USER='opendmarc'
-OPENDMARC_PASSWORD='opendmarc-password'
-OPENDMARC_DB='opendmarc'
-# History File Info
-HISTDIR='/var/run/opendmarc'
-HISTFILE='opendmarc'
-# Current date
-DATE=$(date +"%Y-%m-%d")
+export OPENDMARC_DBHOST='localhost'
+export OPENDMARC_USER='opendmarc'
+export OPENDMARC_PASSWORD='opendmarc-password'
+export OPENDMARC_DB='opendmarc'
 
-# Make sure history file exists
-touch ${HISTDIR}/${HISTFILE}.dat
-
-# create working folder
-mkdir -p /var/tmp/${HISTFILE}-$$
-
-# Backup and move history file temp dir for processing
-cp ${HISTDIR}/${HISTFILE}.dat ${HISTDIR}/${HISTFILE}.dat.${DATE}.$$
-> ${HISTDIR}/${HISTFILE}.dat
-cp ${HISTDIR}/${HISTFILE}.dat.${DATE}.$$ /var/tmp/${HISTFILE}-$$/${HISTFILE}.dat
-
-# switch to working folder
-cd /var/tmp/${HISTFILE}-$$
-
-# Import temp history file data and send reports
-/opt/local/sbin/opendmarc-import  -verbose < /var/tmp/${HISTFILE}-$$/${HISTFILE}.dat
+# create report and expire
 /opt/local/sbin/opendmarc-reports -verbose -interval=86400 -report-email 'report@example.com' -report-org 'qutic.com' -utc -nodomain 'google.com'
 /opt/local/sbin/opendmarc-expire  -verbose
-
-# Delete temp history file
-rm -rf /var/tmp/${HISTFILE}-$$
