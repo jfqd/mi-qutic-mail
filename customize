@@ -190,6 +190,7 @@ mkdir -p /var/log/opendmarc
 chown opendmarc:opendmarc /var/log/opendmarc
 chown opendmarc:opendmarc /var/run/opendmarc
 chown root:opendmarc /opt/qutic/bin/opendmarc-*
+chmod 0750 /opt/qutic/bin/opendmarc-*
 svccfg import /opt/local/lib/svc/manifest/opendmarc.xml
 
 echo "* setup amavisd-milter"

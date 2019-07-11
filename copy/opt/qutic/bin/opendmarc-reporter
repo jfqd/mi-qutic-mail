@@ -13,5 +13,6 @@ export OPENDMARC_PASSWORD='opendmarc-password'
 export OPENDMARC_DB='opendmarc'
 
 # create report and expire
+cd /var/tmp/
 /opt/local/sbin/opendmarc-reports -verbose -interval=86400 -report-email 'report@example.com' -report-org 'qutic.com' -utc -nodomain 'google.com'
 /opt/local/sbin/opendmarc-expire  -verbose
