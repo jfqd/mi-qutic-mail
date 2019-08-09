@@ -4,3 +4,7 @@ if mdata-get vmail_cleanup 1>/dev/null 2>&1; then
     (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
   fi
 fi
+
+# prevent logadm from going wild
+CRON='5 * * * * [[ `/usr/bin/ps auxwww | /usr/bin/grep logadm | /usr/bin/wc -l` -gt 5 ]] && /usr/bin/pkill logadm'
+(crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
