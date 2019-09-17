@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
 # remove any MAILER-DAEMON mail in queue
-/opt/local/bin/mailq | /usr/bin/awk ' /^[0-9A-F][0-9A-F]*[^*].*MAILER-DAEMON$/ {print $1}' | /usr/bin/xargs -rn1 /opt/local/sbin/postsuper -d
+/opt/local/bin/mailq | /usr/bin/awk ' /^[0-9A-F][0-9A-F]*[^*].*MAILER-DAEMON$/ {print $1}' | /usr/bin/xargs -n1 /opt/local/sbin/postsuper -d
 
 exit 0
