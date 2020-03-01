@@ -65,3 +65,5 @@ patch
 # https://www.rspamd.com/
 # rspamd
 # 
+pflogsumm
+py36-pip

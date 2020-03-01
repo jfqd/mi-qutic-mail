@@ -251,6 +251,9 @@ sed -i \
   's|/var/log/mail.log -C 5|#/var/log/mail.log -C 5|' \
   /etc/logadm.conf
 
+echo "* install zabbix-postfix requirements"
+pip3.6 install pygtail
+
 # Clean up
 echo "* Cleaning up."
 rm -rf /opt/local/etc/tmp/
