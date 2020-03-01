@@ -74,3 +74,7 @@ You should adjust at least the following config files to your needs:
 
 * Add [PostTLS](https://github.com/suenkler/PostTLS) as an option
 * Add [clamav-unofficial-sigs](https://github.com/extremeshok/clamav-unofficial-sigs) as an option
+
+## Read on
+
+* [Outbound DANE in 15 Minuten einrichten](https://blog.sys4.de/outbound-dane-mit-postfix-de.html) (German only)
