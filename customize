@@ -33,9 +33,13 @@ gsed -i \
 gsed -i \
      's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
       /opt/local/etc/fail2ban/filter.d/postfix-sasl.conf
-gsed -i \
-     's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
-      /opt/local/etc/fail2ban/filter.d/postfix.conf
+
+rm /opt/local/etc/fail2ban/filter.d/postfix.conf || true
+mv /opt/local/etc/tmp/postfix.conf /opt/local/etc/fail2ban/filter.d/postfix.conf
+
+# gsed -i \
+#      's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
+#       /opt/local/etc/fail2ban/filter.d/postfix.conf
 
 echo "* Import fail2ban smf"
 svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
