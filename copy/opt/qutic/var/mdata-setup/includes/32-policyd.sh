@@ -8,7 +8,7 @@ if mdata-get postfix_mysqlpassword 1>/dev/null 2>&1; then
   sed -i "s/Password=p0stf1x/Password=${MYSQL_PWD}/" /opt/local/etc/cluebringer.conf
 fi
 
-svcadm enable svc:/network/policyd:default
+svcadm disable svc:/network/policyd:default
 
-CRON='0 * * * * /opt/local/libexec/cbpadmin --cleanup 1>/dev/null'
-(crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+# CRON='0 * * * * /opt/local/libexec/cbpadmin --cleanup 1>/dev/null'
+# (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab

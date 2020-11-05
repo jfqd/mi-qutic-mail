@@ -7,133 +7,149 @@
 # postconf -d : Print main.cf default parameter settings instead of actual settings
 # postconf -m : List the names of all supported lookup table types
 
-sendmail_path                    = /opt/local/sbin/sendmail
-newaliases_path                  = /opt/local/bin/newaliases
-mailq_path                       = /opt/local/bin/mailq
-queue_directory                  = /var/spool/postfix
-command_directory                = /opt/local/sbin
-daemon_directory                 = /opt/local/libexec/postfix
-data_directory                   = /var/db/postfix
-manpage_directory                = /opt/local/man
-meta_directory                   = /opt/local/libexec/postfix
-shlib_directory                  = /opt/local/lib/postfix
-html_directory                   = no
-sample_directory                 = no
-readme_directory                 = no
-mail_owner                       = postfix
-setgid_group                     = maildrop
-myhostname                       = mail.example.com
-myorigin                         = example.com
-smtpd_banner                     = $myhostname ESMTP
-biff                             = no
-append_dot_mydomain              = no
-masquerade_domains               = example.com
-maximal_queue_lifetime           = 3d
-bounce_queue_lifetime            = 3d
-smtpd_proxy_timeout              = 100s
-smtpd_use_tls                    = yes
-smtpd_tls_security_level         = may
-smtpd_tls_auth_only              = yes
-smtpd_tls_received_header        = yes
-tls_random_source                = dev:/dev/urandom
-smtpd_tls_cert_file              = /opt/local/etc/ssl/cert.pem
-smtpd_tls_key_file               = /opt/local/etc/ssl/private/cert.key
-smtpd_tls_CAfile                 = /etc/ssl/certs/ca-certificates.crt
-smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_sessions
-tls_high_cipherlist              = !aNULL:!eNULL:!CAMELLIA:HIGH:@STRENGTH
-tls_preempt_cipherlist           = yes
-# NO_RENEGOTIATION needs openssl v1.1.x
-tls_ssl_options                  = NO_COMPRESSION, NO_RENEGOTIATION
-smtpd_tls_protocols              = !SSLv2,!SSLv3
-smtpd_tls_mandatory_protocols    = !SSLv2,!SSLv3
-tlsproxy_tls_protocols           = !SSLv2,!SSLv3
-tlsproxy_tls_mandatory_protocols = !SSLv2,!SSLv3
-smtpd_tls_exclude_ciphers        = EXPORT,LOW,MD5,SEED,IDEA,RC2
-smtpd_tls_mandatory_ciphers      = high
-smtpd_tls_ciphers                = high
-smtpd_tls_eecdh_grade            = ultra
-smtpd_tls_dh1024_param_file      = /opt/local/etc/postfix/dh2048.pem
-smtpd_tls_dh512_param_file       = /opt/local/etc/postfix/dh512.pem
-smtpd_tls_loglevel               = 1
-disable_vrfy_command             = yes
-smtpd_helo_required              = yes
-strict_rfc821_envelopes          = yes
-smtpd_recipient_restrictions     = permit_mynetworks,
-                                   check_client_access hash:/opt/local/etc/postfix/client_checks,
-                                   check_sender_access hash:/opt/local/etc/postfix/sender_checks,
-                                   reject_non_fqdn_sender,
-                                   reject_non_fqdn_recipient,
-                                   reject_unknown_sender_domain,
-                                   reject_unknown_recipient_domain,
-                                   reject_invalid_hostname,
-                                   permit_sasl_authenticated,
-                                   reject_unknown_reverse_client_hostname,
-                                   reject_unauth_destination,
-                                   reject_unauth_pipelining,
-                                   reject_rbl_client dnsbl.qutic.com,
-                                   reject_rbl_client zen.spamhaus.org,
-                                   reject_rbl_client ix.dnsbl.manitu.net,
-                                   reject_rbl_client bl.spamcop.net,
-                                   reject_rbl_client bl.blocklist.de,
-                                   check_policy_service unix:private/policy-spf,
-                                   check_policy_service inet:127.0.0.1:10031,
-                                   reject_unverified_recipient,
-                                   permit
-smtpd_sasl_type                  = dovecot
-smtpd_sasl_path                  = inet:127.0.0.1:10022
-smtpd_sasl_auth_enable           = yes
-smtpd_sasl_local_domain          =
-smtpd_sasl_authenticated_header  = no
-smtpd_sasl_security_options      = noanonymous, noplaintext
-smtpd_sasl_tls_security_options  = noanonymous
-broken_sasl_auth_clients         = yes
-smtp_use_tls                     = yes
-# smtp_dns_support_level           = dnssec
-# smtp_tls_security_level          = dane
-smtp_tls_security_level          = may
-smtp_tls_note_starttls_offer     = yes
-smtp_tls_CAfile                  = /etc/ssl/certs/ca-certificates.crt
-smtp_tls_session_cache_database  = btree:${data_directory}/smtp_sessions
-smtp_tls_protocols               = !SSLv2,!SSLv3
-smtp_tls_mandatory_protocols     = !SSLv2,!SSLv3
-smtp_tls_exclude_ciphers         = EXPORT,LOW,MD5,aDSS,kECDHe,kECDHr,kDHd,kDHr,SEED,IDEA,RC2
-smtp_tls_mandatory_ciphers       = high
-smtp_tls_loglevel                = 1
-lmtp_tls_protocols               = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
-lmtp_tls_mandatory_protocols     = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
-mydestination                    = localhost
-relayhost                        =
-mynetworks                       = 127.0.0.1
-mailbox_size_limit               = 0
-message_size_limit               = 20480000
-recipient_delimiter              = +
-inet_protocols                   = ipv4
-inet_interfaces                  = all
-content_filter                   =
-alias_maps                       = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
-alias_database                   = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
-virtual_alias_maps               = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
-smtpd_sender_login_maps          = mysql:/opt/local/etc/postfix/sql/mysql_sender_login_maps
-virtual_mailbox_maps             = mysql:/opt/local/etc/postfix/sql/mysql_virtual_mailbox_maps
-virtual_mailbox_domains          = mysql:/opt/local/etc/postfix/sql/mysql_virtual_mailbox_domains
-virtual_uid_maps                 = static:155
-virtual_gid_maps                 = static:155
-virtual_transport                = virtual
-fallback_transport               = virtual
-virtual_mailbox_base             = /var/mail/vhosts
-smtp_destination_concurrency_limit  = 1
-smtp_destination_rate_delay      = 30s
-smtp_extra_recipient_limit       = 10
-inet_protocols                   = ipv4
-smtputf8_enable                  = no
-compatibility_level              = 2
-policy-spf_time_limit            = 3600
-dkim_milter                      = inet:127.0.0.1:12345
-dmarc_milter                     = inet:127.0.0.1:54321
-amavisd_milter                   = inet:127.0.0.1:8899
-non_smtpd_milters                = inet:127.0.0.1:8899
-unknown_local_recipient_reject_code = 550
-unknown_relay_recipient_reject_code = 550
-unknown_virtual_alias_reject_code   = 550
-unknown_virtual_mailbox_reject_code = 550
-unverified_recipient_reject_code    = 550
+sendmail_path                        = /opt/local/sbin/sendmail
+newaliases_path                      = /opt/local/bin/newaliases
+mailq_path                           = /opt/local/bin/mailq
+queue_directory                      = /var/spool/postfix
+command_directory                    = /opt/local/sbin
+daemon_directory                     = /opt/local/libexec/postfix
+data_directory                       = /var/db/postfix
+manpage_directory                    = /opt/local/man
+meta_directory                       = /opt/local/libexec/postfix
+shlib_directory                      = /opt/local/lib/postfix
+html_directory                       = no
+sample_directory                     = no
+readme_directory                     = no
+mail_owner                           = postfix
+setgid_group                         = maildrop
+myhostname                           = mail.example.com
+myorigin                             = example.com
+smtpd_banner                         = $myhostname ESMTP
+biff                                 = no
+append_dot_mydomain                  = no
+masquerade_domains                   = example.com
+maximal_queue_lifetime               = 3d
+bounce_queue_lifetime                = 3d
+smtpd_proxy_timeout                  = 100s
+smtpd_use_tls                        = yes
+smtpd_tls_security_level             = may
+smtpd_tls_auth_only                  = yes
+smtpd_tls_received_header            = yes
+tls_random_source                    = dev:/dev/urandom
+smtpd_tls_cert_file                  = /opt/local/etc/ssl/cert.pem
+smtpd_tls_key_file                   = /opt/local/etc/ssl/private/cert.key
+smtpd_tls_CAfile                     = /etc/ssl/certs/ca-certificates.crt
+smtpd_tls_session_cache_database     = btree:${data_directory}/smtpd_sessions
+tls_high_cipherlist                  = !aNULL:!eNULL:!CAMELLIA:HIGH:@STRENGTH
+tls_preempt_cipherlist               = yes
+# NO_RENEGOTIATION needs openssl     v1.1.x
+tls_ssl_options                      = NO_COMPRESSION, NO_RENEGOTIATION
+smtpd_tls_protocols                  = !SSLv2,!SSLv3
+smtpd_tls_mandatory_protocols        = !SSLv2,!SSLv3
+tlsproxy_tls_protocols               = !SSLv2,!SSLv3
+tlsproxy_tls_mandatory_protocols     = !SSLv2,!SSLv3
+smtpd_tls_exclude_ciphers            = EXPORT,LOW,MD5,SEED,IDEA,RC2
+smtpd_tls_mandatory_ciphers          = high
+smtpd_tls_ciphers                    = high
+smtpd_tls_eecdh_grade                = ultra
+smtpd_tls_dh1024_param_file          = /opt/local/etc/postfix/dh2048.pem
+smtpd_tls_dh512_param_file           = /opt/local/etc/postfix/dh512.pem
+smtpd_tls_loglevel                   = 1
+disable_vrfy_command                 = yes
+smtpd_helo_required                  = yes
+strict_rfc821_envelopes              = yes
+smtpd_recipient_restrictions         = permit_mynetworks,
+                                      check_client_access hash:/opt/local/etc/postfix/client_checks,
+                                      check_sender_access hash:/opt/local/etc/postfix/sender_checks,
+                                      reject_non_fqdn_sender,
+                                      reject_non_fqdn_recipient,
+                                      reject_unknown_sender_domain,
+                                      reject_unknown_recipient_domain,
+                                      reject_invalid_hostname,
+                                      permit_sasl_authenticated,
+                                      reject_unknown_reverse_client_hostname,
+                                      reject_unauth_destination,
+                                      reject_unauth_pipelining,
+                                      reject_rbl_client dnsbl.qutic.com,
+                                      reject_rbl_client zen.spamhaus.org,
+                                      reject_rbl_client ix.dnsbl.manitu.net,
+                                      reject_rbl_client bl.spamcop.net,
+                                      reject_rbl_client bl.blocklist.de,
+                                      check_policy_service unix:private/policy-spf,
+                                      reject_unverified_recipient,
+                                      permit
+smtpd_sasl_type                      = dovecot
+smtpd_sasl_path                      = inet:127.0.0.1:10022
+smtpd_sasl_auth_enable               = yes
+smtpd_sasl_local_domain              =
+smtpd_sasl_authenticated_header      = no
+smtpd_sasl_security_options          = noanonymous, noplaintext
+smtpd_sasl_tls_security_options      = noanonymous
+broken_sasl_auth_clients             = yes
+smtp_use_tls                         = yes
+# smtp_dns_support_level               = dnssec
+# smtp_tls_security_level              = dane
+smtp_tls_security_level              = may
+smtp_tls_note_starttls_offer         = yes
+smtp_tls_CAfile                      = /etc/ssl/certs/ca-certificates.crt
+smtp_tls_session_cache_database      = btree:${data_directory}/smtp_sessions
+smtp_tls_protocols                   = !SSLv2,!SSLv3
+smtp_tls_mandatory_protocols         = !SSLv2,!SSLv3
+smtp_tls_exclude_ciphers             = EXPORT,LOW,MD5,aDSS,kECDHe,kECDHr,kDHd,kDHr,SEED,IDEA,RC2
+smtp_tls_mandatory_ciphers           = high
+smtp_tls_loglevel                    = 1
+lmtp_tls_protocols                   = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+lmtp_tls_mandatory_protocols         = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+mydestination                        = localhost
+relayhost                            =
+mynetworks                           = 127.0.0.1
+mailbox_size_limit                   = 0
+message_size_limit                   = 20480000
+recipient_delimiter                  = +
+inet_protocols                       = ipv4
+inet_interfaces                      = all
+content_filter                       =
+alias_maps                           = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
+alias_database                       = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
+virtual_alias_maps                   = mysql:/opt/local/etc/postfix/sql/mysql_virtual_alias_maps
+smtpd_sender_login_maps              = mysql:/opt/local/etc/postfix/sql/mysql_sender_login_maps
+virtual_mailbox_maps                 = mysql:/opt/local/etc/postfix/sql/mysql_virtual_mailbox_maps
+virtual_mailbox_domains              = mysql:/opt/local/etc/postfix/sql/mysql_virtual_mailbox_domains
+virtual_uid_maps                     = static:155
+virtual_gid_maps                     = static:155
+virtual_transport                    = virtual
+fallback_transport                   = virtual
+virtual_mailbox_base                 = /var/mail/vhosts
+smtp_destination_concurrency_limit   = 1
+smtp_destination_rate_delay          = 30s
+smtp_extra_recipient_limit           = 10
+inet_protocols                       = ipv4
+smtputf8_enable                      = no
+compatibility_level                  = 2
+policy-spf_time_limit                = 3600
+dkim_milter                          = inet:127.0.0.1:12345
+dmarc_milter                         = inet:127.0.0.1:54321
+amavisd_milter                       = inet:127.0.0.1:8899
+non_smtpd_milters                    = inet:127.0.0.1:8899
+unknown_local_recipient_reject_code  = 550
+unknown_relay_recipient_reject_code  = 550
+unknown_virtual_alias_reject_code    = 550
+unknown_virtual_mailbox_reject_code  = 550
+unverified_recipient_reject_code     = 550
+postscreen_access_list               = permit_mynetworks
+                                       cidr:/opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+                                       #cidr:/opt/local/etc/postfix/postscreen_spf_blacklist.cidr
+postscreen_blacklist_action          = drop
+postscreen_greet_action              = enforce
+postscreen_dnsbl_threshold           = 2
+postscreen_dnsbl_sites               = dnsbl.qutic.com*2
+                                       zen.spamhaus.org*2
+                                       ix.dnsbl.manitu.net*2
+                                       bl.spamcop.net*1
+                                       bl.blocklist.de*1
+postscreen_dnsbl_action              = enforce
+postscreen_dnsbl_whitelist_threshold = -1
+postscreen_pipelining_enable         = yes
+postscreen_non_smtp_command_enable   = yes
+postscreen_bare_newline_enable       = yes
+postscreen_bare_newline_action       = drop

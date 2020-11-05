@@ -7,14 +7,18 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
-smtp      inet  n       -       n       -       20       smtpd
+#smtp      inet  n       -       n       -       20       smtpd
+#  -o smtpd_client_connection_count_limit=10
+#  -o smtpd_proxy_options=speed_adjust
+#  -o smtpd_milters=${dkim_milter},${dmarc_milter},${amavisd_milter}
+smtp      inet  n       -       n       -       1       postscreen
+smtpd     pass  -       -       n       -       -       smtpd
+  -o smtpd_sasl_auth_enable=no
   -o smtpd_client_connection_count_limit=10
   -o smtpd_proxy_options=speed_adjust
   -o smtpd_milters=${dkim_milter},${dmarc_milter},${amavisd_milter}
-#smtp      inet  n       -       n       -       1       postscreen
-#smtpd     pass  -       -       n       -       -       smtpd
-#dnsblog   unix  -       -       n       -       0       dnsblog
-#tlsproxy  unix  -       -       n       -       0       tlsproxy
+dnsblog   unix  -       -       n       -       0       dnsblog
+tlsproxy  unix  -       -       n       -       0       tlsproxy
 submission inet n       -       n       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
@@ -133,3 +137,5 @@ maildrop  unix  -       n       n       -       -       pipe
 # spf policy daemon
 policy-spf  unix  -       n       n       -       -       spawn
   user=nobody argv=/opt/local/bin/policyd-spf
+submission-header-cleanup unix  n      -        n       -       0       cleanup
+  -o header_checks=regexp:/opt/local/etc/postfix/submission_header_cleanup
