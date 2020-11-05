@@ -97,12 +97,12 @@ mkdir /var/log/spamd
 chown -R spamd:spamd /var/log/spamd
 
 echo "* setup policyd"
-groupadd -g 904 policyd
-useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
-mkdir /var/log/cbpolicyd
-mkdir -p /var/cbpolicyd
-chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
-svccfg import /opt/local/lib/svc/manifest/policyd.xml
+# groupadd -g 904 policyd
+# useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
+# mkdir /var/log/cbpolicyd
+# mkdir -p /var/cbpolicyd
+# chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
+# svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* Backup original config files"
 mv /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
@@ -116,6 +116,7 @@ mv /opt/local/etc/spamassassin/local.cf /opt/local/etc/spamassassin/local.cf.bak
 echo "* Move new config files into place"
 mv /opt/local/etc/tmp/main.cf /opt/local/etc/postfix/main.cf
 mv /opt/local/etc/tmp/master.cf /opt/local/etc/postfix/master.cf
+mv /opt/local/etc/tmp/submission_header_cleanup /opt/local/etc/postfix/submission_header_cleanup 
 mv /opt/local/etc/tmp/amavisd.conf /opt/local/etc/amavisd.conf
 mv /opt/local/etc/tmp/clamd.conf /opt/local/etc/clamd.conf
 mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
