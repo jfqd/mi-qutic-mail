@@ -96,7 +96,7 @@ echo "* Create logging folder for spamd"
 mkdir /var/log/spamd
 chown -R spamd:spamd /var/log/spamd
 
-echo "* setup policyd"
+# echo "* setup policyd"
 # groupadd -g 904 policyd
 # useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
 # mkdir /var/log/cbpolicyd
