@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+SA_VERSION="3.004006"
+cp /var/mail/shared/80_QD_body.cf /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_body.cf
+cp /var/mail/shared/80_QD_header.cf /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_header.cf
+chown -R spamd:spamd /var/spamassassin/${SA_VERSION}/
+cp /var/mail/shared/amavisd.conf /opt/local/etc/amavisd.conf
+svcadm restart amavisd
