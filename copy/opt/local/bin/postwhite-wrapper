@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+/opt/local/bin/postwhite
+
+printf "40.107.0.0/16\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+printf "10.42.200.108/32\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr

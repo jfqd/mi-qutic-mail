@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-
 /opt/local/bin/pkgin -y ug
 /opt/local/bin/pkgin clean
 svcadm restart dovecot
