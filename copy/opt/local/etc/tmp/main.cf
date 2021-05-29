@@ -31,18 +31,18 @@ masquerade_domains                   = example.com
 maximal_queue_lifetime               = 3d
 bounce_queue_lifetime                = 3d
 smtpd_proxy_timeout                  = 100s
+smtpd_discard_ehlo_keywords          = silent-discard, dsn
 smtpd_use_tls                        = yes
 smtpd_tls_security_level             = may
 smtpd_tls_auth_only                  = yes
 smtpd_tls_received_header            = yes
-tls_random_source                    = dev:/dev/urandom
 smtpd_tls_cert_file                  = /opt/local/etc/ssl/cert.pem
 smtpd_tls_key_file                   = /opt/local/etc/ssl/private/cert.key
 smtpd_tls_CAfile                     = /etc/ssl/certs/ca-certificates.crt
 smtpd_tls_session_cache_database     = btree:${data_directory}/smtpd_sessions
-tls_high_cipherlist                  = !aNULL:!eNULL:!CAMELLIA:HIGH:@STRENGTH
+#tls_high_cipherlist                  = !aNULL:!eNULL:!CAMELLIA:HIGH:@STRENGTH
+tls_random_source                    = dev:/dev/urandom
 tls_preempt_cipherlist               = yes
-# NO_RENEGOTIATION needs openssl     v1.1.x
 tls_ssl_options                      = NO_COMPRESSION, NO_RENEGOTIATION
 smtpd_tls_protocols                  = !SSLv2,!SSLv3
 smtpd_tls_mandatory_protocols        = !SSLv2,!SSLv3
@@ -70,11 +70,6 @@ smtpd_recipient_restrictions         = permit_mynetworks,
                                       reject_unknown_reverse_client_hostname,
                                       reject_unauth_destination,
                                       reject_unauth_pipelining,
-                                      reject_rbl_client dnsbl.qutic.com,
-                                      reject_rbl_client zen.spamhaus.org,
-                                      reject_rbl_client ix.dnsbl.manitu.net,
-                                      reject_rbl_client bl.spamcop.net,
-                                      reject_rbl_client bl.blocklist.de,
                                       check_policy_service unix:private/policy-spf,
                                       reject_unverified_recipient,
                                       permit
@@ -97,6 +92,8 @@ smtp_tls_protocols                   = !SSLv2,!SSLv3
 smtp_tls_mandatory_protocols         = !SSLv2,!SSLv3
 smtp_tls_exclude_ciphers             = EXPORT,LOW,MD5,aDSS,kECDHe,kECDHr,kDHd,kDHr,SEED,IDEA,RC2
 smtp_tls_mandatory_ciphers           = high
+# set loglevel to max. 3 to get more connections informations
+# http://www.postfix.org/TLS_README.html
 smtp_tls_loglevel                    = 1
 lmtp_tls_protocols                   = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 lmtp_tls_mandatory_protocols         = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
@@ -131,6 +128,7 @@ dkim_milter                          = inet:127.0.0.1:12345
 dmarc_milter                         = inet:127.0.0.1:54321
 amavisd_milter                       = inet:127.0.0.1:8899
 non_smtpd_milters                    = inet:127.0.0.1:8899
+milter_default_action                = accept
 unknown_local_recipient_reject_code  = 550
 unknown_relay_recipient_reject_code  = 550
 unknown_virtual_alias_reject_code    = 550
@@ -145,8 +143,9 @@ postscreen_dnsbl_threshold           = 2
 postscreen_dnsbl_sites               = dnsbl.qutic.com*2
                                        zen.spamhaus.org*2
                                        ix.dnsbl.manitu.net*2
-                                       bl.spamcop.net*1
+#                                       bl.spamcop.net*1
                                        bl.blocklist.de*1
+                                       dnsbl.sorbs.net*1
 postscreen_dnsbl_action              = enforce
 postscreen_dnsbl_whitelist_threshold = -1
 postscreen_pipelining_enable         = yes
