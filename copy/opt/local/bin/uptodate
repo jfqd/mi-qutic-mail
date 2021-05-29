@@ -63,5 +63,6 @@ EOF
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 /opt/local/bin/sa-update
 chown -R spamd:spamd /var/spamassassin/
+chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys/
 svcadm enable amavisd
 svcs -vx
