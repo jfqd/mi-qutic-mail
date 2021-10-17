@@ -1,4 +1,10 @@
 #!/usr/bin/bash
+
+if [[ -z "$1" ]]; then
+  echo "skip uptodate on mx for now"
+  exit 0
+fi
+
 /opt/local/bin/pkgin -y ug
 /opt/local/bin/pkgin clean
 svcadm restart dovecot
@@ -63,6 +69,6 @@ EOF
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 /opt/local/bin/sa-update
 chown -R spamd:spamd /var/spamassassin/
-chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys/
+chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys
 svcadm enable amavisd
 svcs -vx
