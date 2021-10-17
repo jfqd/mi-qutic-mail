@@ -6,7 +6,8 @@ PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 set -o errexit
 
 AUTORESPONDER_VERSION="v0.1.0"
-YARA_RULES_VERSION="0.0.1"
+YARA_RULES_VERSION="0.0.2"
+SA_VERSION="3.004006"
 
 MUNIN_PLUGINS="
 	postfix_mailvolume
@@ -36,6 +37,7 @@ gsed -i \
 
 rm /opt/local/etc/fail2ban/filter.d/postfix.conf || true
 mv /opt/local/etc/tmp/postfix.conf /opt/local/etc/fail2ban/filter.d/postfix.conf
+mv /opt/local/etc/tmp/fail2ban_mail /opt/local/etc/munin/plugin-conf.d/mail 
 
 # gsed -i \
 #      's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
@@ -71,15 +73,16 @@ echo "* Update permissions for spamassassin folders"
 mkdir -p /var/spamassassin/.spamassassin
 chown -R spamd:spamd /var/spamassassin
 chown -R spamd:spamd /opt/local/etc/spamassassin
+ln -nfs /var/spamassassin/${SA_VERSION}/ /var/spamassassin/latest
 
 echo "* Prepare qutic spammassasin rules"
-mkdir -p /var/spamassassin/3.004001/updates_qutic_com
-cat >> /var/spamassassin/3.004001/updates_qutic_com.cf << EOF
+mkdir -p /var/spamassassin/${SA_VERSION}/updates_qutic_com
+cat >> /var/spamassassin/${SA_VERSION}/updates_qutic_com.cf << EOF
 include updates_qutic_com/80_QD_body.cf
 include updates_qutic_com/80_QD_header.cf
 EOF
-touch /var/spamassassin/3.004001/updates_qutic_com/80_QD_body.cf
-touch /var/spamassassin/3.004001/updates_qutic_com/80_QD_header.cf
+touch /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_body.cf
+touch /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_header.cf
 
 # Create logging folder for spamd
 echo "* Create logging folder for spamd"
@@ -150,15 +153,15 @@ echo "* Setup amavisn clamav"
 usermod -G amavis clamav
 usermod -G clamav amavis
 
-echo "* setup spiped"
-groupadd -g 120 spiped
-useradd -m -s /usr/bin/false -d /nonexistent -u 120 -g spiped spiped
-dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
-chmod 0640 /etc/ssh/spiped.key
-chown root:spiped /etc/ssh/spiped.key
-svccfg delete svc:/pkgsrc/spiped:default
+# echo "* setup spiped"
+# groupadd -g 120 spiped
+# useradd -m -s /usr/bin/false -d /nonexistent -u 120 -g spiped spiped
+# dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
+# chmod 0640 /etc/ssh/spiped.key
+# chown root:spiped /etc/ssh/spiped.key
+# svccfg delete svc:/pkgsrc/spiped:default
 
-echo "* setup ssl infrastructure"
+echo "* setup tls infrastructure"
 mkdir -p /opt/local/etc/ssl/private
 chmod 0755 /opt/local/etc/ssl/
 chmod 0750 /opt/local/etc/ssl/private
@@ -191,18 +194,39 @@ svccfg import /opt/local/lib/svc/manifest/opendmarc.xml
 echo "* setup amavisd-milter"
 svccfg import /opt/local/lib/svc/manifest/amavisd-milter.xml
 
-echo "* Setup proxysql";
-pkg_add https://download.qutic.com/extras/proxysql-1.4.7.tgz || true
-mkdir -p /opt/local/var/proxysql
-groupadd -g 130 proxysql
-useradd -m -s /usr/bin/false -d /opt/local/var/proxysql -u 130 -g proxysql proxysql
-chown proxysql:proxysql /opt/local/var/proxysql/
-mv /opt/local/etc/proxysql.cnf /opt/local/etc/proxysql.cnf.bak || true
-mv /opt/local/etc/tmp/proxysql.cnf /opt/local/etc/proxysql.cnf
-chmod 0640 /opt/local/etc/proxysql.cnf
-chown root:proxysql /opt/local/etc/proxysql.cnf
-svccfg import /opt/local/lib/svc/manifest/proxysql.xml
-ln -nfs /var/svc/log/pkgsrc-proxysql:default.log /var/log/proxysql_log
+# echo "* Setup proxysql";
+# pkg_add https://download.qutic.com/extras/proxysql-1.4.7.tgz || true
+# mkdir -p /opt/local/var/proxysql
+# groupadd -g 130 proxysql
+# useradd -m -s /usr/bin/false -d /opt/local/var/proxysql -u 130 -g proxysql proxysql
+# chown proxysql:proxysql /opt/local/var/proxysql/
+# mv /opt/local/etc/proxysql.cnf /opt/local/etc/proxysql.cnf.bak || true
+# mv /opt/local/etc/tmp/proxysql.cnf /opt/local/etc/proxysql.cnf
+# chmod 0640 /opt/local/etc/proxysql.cnf
+# chown root:proxysql /opt/local/etc/proxysql.cnf
+# svccfg import /opt/local/lib/svc/manifest/proxysql.xml
+# ln -nfs /var/svc/log/pkgsrc-proxysql:default.log /var/log/proxysql_log
+
+echo "* setup postwhite"
+mkdir -p /opt/local/src/
+(
+  cd /opt/local/src/
+  git clone https://github.com/spf-tools/spf-tools.git
+  git clone https://github.com/stevejenkins/postwhite.git
+  ln -nfs /opt/local/src/postwhite/postwhite /opt/local/bin/postwhite
+  cp /opt/local/src/postwhite/scrape_yahoo /opt/local/bin/scrape_yahoo
+  
+  sed -i \
+      -e 's#config_file="/etc/postwhite.conf"#config_file="/opt/local/etc/postwhite.conf"#' \
+      /opt/local/bin/scrape_yahoo
+  
+  sed -i \
+      -e "s#/tmp/#/var/tmp#" \
+      /opt/local/src/postwhite/postwhite
+  touch /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+  chown root:postfix /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+  chmod 0660 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+)
 
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail

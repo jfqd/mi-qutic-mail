@@ -1,0 +1,15 @@
+[amavis]
+  user           root
+
+[spamassassin]
+  env.logfile    mail.log
+
+[fail2ban]
+  env.client     /opt/local/bin/fail2ban-client
+  env.config_dir /opt/local/etc/fail2ban
+
+[dovecot]
+  env.LOGFILE    /var/log/dovecot.log
+
+[clamav]
+  user           root
