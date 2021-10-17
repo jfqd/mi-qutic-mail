@@ -26,8 +26,9 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_reject_unlisted_recipient=no
   -o smtpd_etrn_restrictions=reject
   -o tls_preempt_cipherlist=yes
-  -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_recipient_restrictions=reject_unknown_recipient_domain,permit_sasl_authenticated,reject
   -o smtpd_proxy_filter=127.0.0.1:10024
+  -o cleanup_service_name=header-cleanup
 465     inet  n       -       n       -       -       smtpd
   -o syslog_name=postfix/smtps
   -o smtpd_tls_wrappermode=yes
@@ -35,8 +36,9 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_reject_unlisted_recipient=no
   -o smtpd_etrn_restrictions=reject
   -o tls_preempt_cipherlist=yes
-  -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_recipient_restrictions=reject_unknown_recipient_domain,permit_sasl_authenticated,reject
   -o smtpd_proxy_filter=127.0.0.1:10024
+  -o cleanup_service_name=header-cleanup
 #628       inet  n       -       n       -       -       qmqpd
 pickup    fifo  n       -       n       60      1       pickup
   -o content_filter=
@@ -137,5 +139,6 @@ maildrop  unix  -       n       n       -       -       pipe
 # spf policy daemon
 policy-spf  unix  -       n       n       -       -       spawn
   user=nobody argv=/opt/local/bin/policyd-spf
-submission-header-cleanup unix  n      -        n       -       0       cleanup
+
+header-cleanup unix  n      -        n       -       0       cleanup
   -o header_checks=regexp:/opt/local/etc/postfix/submission_header_cleanup
