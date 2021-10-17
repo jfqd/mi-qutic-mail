@@ -40,14 +40,14 @@ smtpd_tls_cert_file                  = /opt/local/etc/ssl/cert.pem
 smtpd_tls_key_file                   = /opt/local/etc/ssl/private/cert.key
 smtpd_tls_CAfile                     = /etc/ssl/certs/ca-certificates.crt
 smtpd_tls_session_cache_database     = btree:${data_directory}/smtpd_sessions
-#tls_high_cipherlist                  = !aNULL:!eNULL:!CAMELLIA:HIGH:@STRENGTH
 tls_random_source                    = dev:/dev/urandom
+tls_high_cipherlist                  = EECDH+AESGCM:EDH+AESGCM
 tls_preempt_cipherlist               = yes
 tls_ssl_options                      = NO_COMPRESSION, NO_RENEGOTIATION
-smtpd_tls_protocols                  = !SSLv2,!SSLv3
-smtpd_tls_mandatory_protocols        = !SSLv2,!SSLv3
-tlsproxy_tls_protocols               = !SSLv2,!SSLv3
-tlsproxy_tls_mandatory_protocols     = !SSLv2,!SSLv3
+smtpd_tls_protocols                  = >=TLSv1.2
+smtpd_tls_mandatory_protocols        = >=TLSv1.2
+tlsproxy_tls_protocols               = >=TLSv1.2
+tlsproxy_tls_mandatory_protocols     = >=TLSv1.2
 smtpd_tls_exclude_ciphers            = EXPORT,LOW,MD5,SEED,IDEA,RC2
 smtpd_tls_mandatory_ciphers          = high
 smtpd_tls_ciphers                    = high
@@ -88,15 +88,15 @@ smtp_tls_security_level              = may
 smtp_tls_note_starttls_offer         = yes
 smtp_tls_CAfile                      = /etc/ssl/certs/ca-certificates.crt
 smtp_tls_session_cache_database      = btree:${data_directory}/smtp_sessions
-smtp_tls_protocols                   = !SSLv2,!SSLv3
-smtp_tls_mandatory_protocols         = !SSLv2,!SSLv3
+smtp_tls_protocols                   = >=TLSv1.2
+smtp_tls_mandatory_protocols         = >=TLSv1.2
 smtp_tls_exclude_ciphers             = EXPORT,LOW,MD5,aDSS,kECDHe,kECDHr,kDHd,kDHr,SEED,IDEA,RC2
 smtp_tls_mandatory_ciphers           = high
 # set loglevel to max. 3 to get more connections informations
 # http://www.postfix.org/TLS_README.html
 smtp_tls_loglevel                    = 1
-lmtp_tls_protocols                   = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
-lmtp_tls_mandatory_protocols         = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+lmtp_tls_protocols                   = >=TLSv1.2
+lmtp_tls_mandatory_protocols         = >=TLSv1.2
 mydestination                        = localhost
 relayhost                            =
 mynetworks                           = 127.0.0.1
@@ -143,7 +143,6 @@ postscreen_dnsbl_threshold           = 2
 postscreen_dnsbl_sites               = dnsbl.qutic.com*2
                                        zen.spamhaus.org*2
                                        ix.dnsbl.manitu.net*2
-#                                       bl.spamcop.net*1
                                        bl.blocklist.de*1
                                        dnsbl.sorbs.net*1
 postscreen_dnsbl_action              = enforce
