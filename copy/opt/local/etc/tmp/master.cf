@@ -27,8 +27,9 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_etrn_restrictions=reject
   -o tls_preempt_cipherlist=yes
   -o smtpd_recipient_restrictions=reject_unknown_recipient_domain,permit_sasl_authenticated,reject
-  -o smtpd_proxy_filter=127.0.0.1:10024
-  -o cleanup_service_name=header-cleanup
+  -o cleanup_service_name=headercleanup
+  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_milters=${amavisd_milter}
 465     inet  n       -       n       -       -       smtpd
   -o syslog_name=postfix/smtps
   -o smtpd_tls_wrappermode=yes
@@ -37,8 +38,9 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_etrn_restrictions=reject
   -o tls_preempt_cipherlist=yes
   -o smtpd_recipient_restrictions=reject_unknown_recipient_domain,permit_sasl_authenticated,reject
-  -o smtpd_proxy_filter=127.0.0.1:10024
-  -o cleanup_service_name=header-cleanup
+  -o cleanup_service_name=headercleanup
+  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_milters=${amavisd_milter}
 #628       inet  n       -       n       -       -       qmqpd
 pickup    fifo  n       -       n       60      1       pickup
   -o content_filter=
@@ -110,35 +112,9 @@ maildrop  unix  -       n       n       -       -       pipe
 #  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
 
-# receive email back from amavis
-127.0.0.1:10025    inet    n    -    n    -    -    smtpd
-  -o content_filter=
-  -o smtpd_proxy_filter=
-  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
-  -o smtpd_tls_security_level=none
-  -o smtpd_restriction_classes=
-  -o smtpd_delay_reject=no
-  -o smtpd_client_restrictions=
-  -o smtpd_helo_restrictions=
-  -o smtpd_sender_restrictions=
-  -o smtpd_recipient_restrictions=permit_mynetworks,reject
-  -o smtpd_data_restrictions=
-  -o smtpd_end_of_data_restrictions=
-  -o mynetworks=127.0.0.0/8
-  -o smtpd_error_sleep_time=0
-  -o smtpd_soft_error_limit=1001
-  -o smtpd_hard_error_limit=1000
-  -o smtpd_client_connection_count_limit=0
-  -o smtpd_client_connection_rate_limit=0
-  -o smtpd_milters=
-  -o local_header_rewrite_clients=
-  -o local_recipient_maps=
-  -o relay_recipient_maps=
-  -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
-
 # spf policy daemon
 policy-spf  unix  -       n       n       -       -       spawn
   user=nobody argv=/opt/local/bin/policyd-spf
-
-header-cleanup unix  n      -        n       -       0       cleanup
-  -o header_checks=regexp:/opt/local/etc/postfix/submission_header_cleanup
+# cleanup header
+headercleanup unix  n      -        n       -       0       cleanup
+  -o header_checks=pcre:/opt/local/etc/postfix/submission_header_cleanup

@@ -59,20 +59,20 @@ disable_vrfy_command                 = yes
 smtpd_helo_required                  = yes
 strict_rfc821_envelopes              = yes
 smtpd_recipient_restrictions         = permit_mynetworks,
-                                      check_client_access hash:/opt/local/etc/postfix/client_checks,
-                                      check_sender_access hash:/opt/local/etc/postfix/sender_checks,
-                                      reject_non_fqdn_sender,
-                                      reject_non_fqdn_recipient,
-                                      reject_unknown_sender_domain,
-                                      reject_unknown_recipient_domain,
-                                      reject_invalid_hostname,
-                                      permit_sasl_authenticated,
-                                      reject_unknown_reverse_client_hostname,
-                                      reject_unauth_destination,
-                                      reject_unauth_pipelining,
-                                      check_policy_service unix:private/policy-spf,
-                                      reject_unverified_recipient,
-                                      permit
+                                       check_client_access hash:/opt/local/etc/postfix/client_checks,
+                                       check_sender_access hash:/opt/local/etc/postfix/sender_checks,
+                                       reject_non_fqdn_sender,
+                                       reject_non_fqdn_recipient,
+                                       reject_unknown_sender_domain,
+                                       reject_unknown_recipient_domain,
+                                       reject_invalid_hostname,
+                                       permit_sasl_authenticated,
+                                       reject_unknown_reverse_client_hostname,
+                                       reject_unauth_destination,
+                                       reject_unauth_pipelining,
+                                       check_policy_service unix:private/policy-spf,
+                                       reject_unverified_recipient,
+                                       permit
 smtpd_sasl_type                      = dovecot
 smtpd_sasl_path                      = inet:127.0.0.1:10022
 smtpd_sasl_auth_enable               = yes

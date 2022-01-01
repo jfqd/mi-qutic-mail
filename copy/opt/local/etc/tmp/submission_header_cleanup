@@ -1,6 +1,4 @@
-### Removes headers of MUAs for privacy reasons
-
-/^Received:/            IGNORE
-/^X-Originating-IP:/    IGNORE
-/^X-Mailer:/            IGNORE
-/^User-Agent:/          IGNORE
+/^X-Originating-IP:/i    IGNORE
+/^X-Mailer: .*$/i        IGNORE
+/^.*User-Agent: .*$/i    IGNORE
+/^Received:.*\(Postfix\) with ESMTPSA/i IGNORE
