@@ -50,7 +50,7 @@ pyzor
 dovecot
 dovecot-mysql
 # spf, dkim, dmarc
-py36-policyd-spf
+py39-policyd-spf
 opendkim
 opendmarc
 #
