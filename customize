@@ -29,6 +29,9 @@ rm /opt/local/etc/munin/plugins/cert_expire || true
 
 echo "* Fix fail2ban"
 gsed -i \
+     's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
+     /opt/local/etc/fail2ban/filter.d/postfix.conf
+gsed -i \
      's/journalmatch = _SYSTEMD_UNIT=dovecot.service/# journalmatch = _SYSTEMD_UNIT=dovecot.service/' \
      /opt/local/etc/fail2ban/filter.d/dovecot.conf
 gsed -i \
@@ -38,10 +41,6 @@ gsed -i \
 rm /opt/local/etc/fail2ban/filter.d/postfix.conf || true
 mv /opt/local/etc/tmp/postfix.conf /opt/local/etc/fail2ban/filter.d/postfix.conf
 mv /opt/local/etc/tmp/fail2ban_mail /opt/local/etc/munin/plugin-conf.d/mail 
-
-# gsed -i \
-#      's/journalmatch = _SYSTEMD_UNIT=postfix.service/# journalmatch = _SYSTEMD_UNIT=postfix.service/' \
-#       /opt/local/etc/fail2ban/filter.d/postfix.conf
 
 echo "* Import fail2ban smf"
 svccfg import /opt/local/lib/svc/manifest/fail2ban.xml
@@ -88,14 +87,6 @@ touch /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_header.cf
 echo "* Create logging folder for spamd"
 mkdir /var/log/spamd
 chown -R spamd:spamd /var/log/spamd
-
-# echo "* setup policyd"
-# groupadd -g 904 policyd
-# useradd -m -s /usr/bin/false -d /nonexistent -u 904 -g policyd policyd
-# mkdir /var/log/cbpolicyd
-# mkdir -p /var/cbpolicyd
-# chown policyd:policyd /var/log/cbpolicyd /var/cbpolicyd
-# svccfg import /opt/local/lib/svc/manifest/policyd.xml
 
 echo "* Backup original config files"
 mv /opt/local/etc/postfix/main.cf /opt/local/etc/postfix/main.cf.bak
@@ -152,14 +143,6 @@ chown clamav:clamav /var/db/clamav-unofficial-sigs
 echo "* Setup amavisn clamav"
 usermod -G amavis clamav
 usermod -G clamav amavis
-
-# echo "* setup spiped"
-# groupadd -g 120 spiped
-# useradd -m -s /usr/bin/false -d /nonexistent -u 120 -g spiped spiped
-# dd if=/dev/urandom bs=32 count=1 2>/dev/null | shasum -a 512 | awk '{print $1}' | tr -d '\n' > /etc/ssh/spiped.key
-# chmod 0640 /etc/ssh/spiped.key
-# chown root:spiped /etc/ssh/spiped.key
-# svccfg delete svc:/pkgsrc/spiped:default
 
 echo "* setup tls infrastructure"
 mkdir -p /opt/local/etc/ssl/private
@@ -261,20 +244,31 @@ cd /opt/local/sbin
 patch -t -N < /opt/local/etc/tmp/amavid.patch 2>&1 1>/dev/null || true
 
 echo "* fix cron log and logadm"
-chown root:nagios /var/cron/log
-chmod 0640 /var/cron/log
-sed -i \
-  's#/var/cron/log -c -s 512k -t /var/cron/olog#/var/cron/log -c -s 512k -m 0640 -o root -g nagios -t /var/cron/olog#' \
-  /etc/logadm.conf
+# chown root:nagios /var/cron/log
+# chmod 0640 /var/cron/log
+# sed -i \
+#   's#/var/cron/log -c -s 512k -t /var/cron/olog#/var/cron/log -c -s 512k -m 0640 -o root -g nagios -t /var/cron/olog#' \
+#   /etc/logadm.conf
 sed -i \
   's|/var/log/mail.log -C 5|#/var/log/mail.log -C 5|' \
   /etc/logadm.conf
 
 echo "* install zabbix requirements"
-pip3.6 install pygtail
+pip3.9 install pygtail
 mkdir -p /var/munin/plugin-state/zabbix
 chown zabbix:zabbix  /var/munin/plugin-state/zabbix
 chown zabbix:zabbix /opt/local/bin/zabbix_postfix
+
+cat >> ~/.bash_history << EOF
+postmap hash:/opt/local/etc/postfix/client_checks
+postmap hash:/opt/local/etc/postfix/sender_checks
+postqueue -c /opt/local/etc/postfix-out -p
+postqueue -p
+grep  postfix-out /var/log/mail.log
+svcadm refresh postfix
+tail -f /var/log/mail.log
+tail -f /var/log/dovecot.log
+EOF
 
 # Clean up
 echo "* Cleaning up."
