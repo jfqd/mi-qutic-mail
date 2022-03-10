@@ -48,8 +48,6 @@ vmadm create << EOF
   "quota":                 20,
   "cpu_cap":              200,
   "customer_metadata": {
-    "munin_master_allow":    "munin-master.example.com",
-    "nagios_allow":          "10.10.10.0/24",
     "logstash_redis":        "redis://10.10.10.10:6379/0,redis://10.10.10.11:6379/0",
     "vfstab":                "storage.example.com:/export/data    -       /var/mail    nfs     -       yes     rw,bg,intr"
   }
