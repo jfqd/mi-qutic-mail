@@ -71,4 +71,7 @@ svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 chown -R spamd:spamd /var/spamassassin/
 chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys
 svcadm enable amavisd
+sed -i -e "s/iteritems()/items()/g" /opt/local/bin/pyzor
+sed -i -e "s/iteritems()/items()/g" /opt/local/lib/python3.9/site-packages/pyzor/client.py
+sed -i -e "s/xrange(length)/range(length)/g" /opt/local/lib/python3.9/site-packages/pyzor/digest.py
 svcs -vx
