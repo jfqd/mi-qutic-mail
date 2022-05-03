@@ -201,12 +201,18 @@ mkdir -p /opt/local/src/
   
   sed -i \
       -e 's#config_file="/etc/postwhite.conf"#config_file="/opt/local/etc/postwhite.conf"#' \
+      -e 's#yahoo_url="https://postmaster.verizonmedia.com/mail-servers"#yahoo_url="https://senders.yahooinc.com/outbound-mail-servers/"#' \
+      -e 's#yahoo_url="https://help.yahoo.com/kb/SLN23997.html"#yahoo_url="https://senders.yahooinc.com/outbound-mail-servers/"#' \
+      -e 's#echo "ipv6:$line";#echo "ipv6:$line" | grep -v "ipv6:::";#' \
+      -e 's#`command -v wget`#`command -v skip-wget`#' \
       /opt/local/bin/scrape_yahoo
   
   sed -i \
       -e "s#/tmp/#/var/tmp#" \
       /opt/local/src/postwhite/postwhite
   touch /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+  touch /opt/local/src/postwhite/yahoo_static_hosts.txt
+  chown postfix:postfix /opt/local/src/postwhite/yahoo_static_hosts.txt
   chown root:postfix /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
   chmod 0660 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
 )
