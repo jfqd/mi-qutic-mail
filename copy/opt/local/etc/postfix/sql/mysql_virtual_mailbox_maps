@@ -2,4 +2,4 @@ user=postfix_mysqluser
 password=postfix_mysqlpassword
 dbname=postfix_mysqldbname
 hosts=postfix_mysqlhost
-query = SELECT maildir FROM users WHERE address='%s' AND active='1'
+query = SELECT maildir FROM users WHERE address='%s' AND active='1' AND mx='1'
