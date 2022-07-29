@@ -1,0 +1,84 @@
+# Global Postfix configuration file. This file lists only a subset
+# of all parameters. For the syntax, and for a complete parameter
+# list, see the postconf(5) manual page (command: "man 5 postconf").
+# http://www.postfix.org/postconf.5.html
+#
+# postconf -n : Print main.cf parameter settings that are explicitly specified in main.cf
+# postconf -d : Print main.cf default parameter settings instead of actual settings
+# postconf -m : List the names of all supported lookup table types
+
+sendmail_path                       = /opt/local/sbin/sendmail
+newaliases_path                     = /opt/local/bin/newaliases
+mailq_path                          = /opt/local/bin/mailq
+queue_directory                     = /var/spool/postfix-out
+command_directory                   = /opt/local/sbin
+daemon_directory                    = /opt/local/libexec/postfix
+data_directory                      = /var/db/postfix-out
+manpage_directory                   = /opt/local/man
+meta_directory                      = /opt/local/libexec/postfix
+shlib_directory                     = /opt/local/lib/postfix
+html_directory                      = no
+sample_directory                    = no
+readme_directory                    = no
+mail_owner                          = postfix
+setgid_group                        = maildrop
+myhostname                          = mail.example.com
+myorigin                            = example.com
+smtpd_banner                        = $myhostname ESMTP
+biff                                = no
+append_dot_mydomain                 = no
+masquerade_domains                  = example.com
+maximal_queue_lifetime              = 3d
+bounce_queue_lifetime               = 3d
+smtp_use_tls                        = yes
+smtp_tls_security_level             = may
+smtp_tls_note_starttls_offer        = yes
+smtp_tls_CAfile                     = /etc/ssl/certs/ca-certificates.crt
+smtp_tls_session_cache_database     = btree:${data_directory}/smtp_sessions
+smtp_tls_protocols                  = >=TLSv1.1
+smtp_tls_mandatory_protocols        = >=TLSv1.1
+smtp_tls_exclude_ciphers            = EXPORT,LOW,MD5,aDSS,kECDHe,kECDHr,kDHd,kDHr,SEED,IDEA,RC2
+smtp_tls_mandatory_ciphers          = high
+smtp_tls_loglevel                   = 1
+message_size_limit                  = 20480000
+recipient_delimiter                 = +
+inet_protocols                      = ipv4
+#inet_interfaces                     = all
+virtual_uid_maps                    = static:155
+virtual_gid_maps                    = static:155
+virtual_transport                   = virtual
+fallback_transport                  = virtual
+virtual_mailbox_base                = /var/mail/vhosts
+smtp_destination_concurrency_limit  = 1
+smtp_destination_rate_delay         = 30si
+smtp_extra_recipient_limit          = 10
+smtputf8_enable                     = no
+unknown_local_recipient_reject_code = 550
+unknown_relay_recipient_reject_code = 550
+unknown_virtual_alias_reject_code   = 550
+unknown_virtual_mailbox_reject_code = 550
+unverified_recipient_reject_code    = 550
+
+# postfix-out config
+master_service_disable              =
+authorized_submit_users             = root
+multi_instance_group                = mta
+multi_instance_name                 = postfix-out
+inet_interfaces                     = loopback-only
+mynetworks_style                    = host
+smtpd_authorized_xforward_hosts     = $mynetworks
+smtp_bind_address                   = 0.0.0.0
+local_header_rewrite_clients        =
+mydestination                       =
+alias_maps                          =
+alias_database                      =
+local_recipient_maps                =
+local_transport                     = error:5.1.1 Mailbox unavailable
+smtpd_relay_restrictions            =
+smtpd_recipient_restrictions        = permit_mynetworks, reject
+smtpd_timeout                       = 1200s
+parent_domain_matches_subdomains    =
+# relay_domains                       = example.com
+smtpd_client_port_logging           = no
+compatibility_level                 = 3.6
+multi_instance_enable               = yes

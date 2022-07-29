@@ -70,6 +70,11 @@ smtpd_recipient_restrictions         = permit_mynetworks,
                                        reject_unknown_reverse_client_hostname,
                                        reject_unauth_destination,
                                        reject_unauth_pipelining,
+#                                       reject_rbl_client dnsbl.qutic.com,
+#                                       reject_rbl_client zen.spamhaus.org,
+#                                       reject_rbl_client ix.dnsbl.manitu.net,
+#                                       reject_rbl_client bl.blocklist.de,
+#                                       reject_rbl_client dnsbl.sorbs.net,
                                        check_policy_service unix:private/policy-spf,
                                        reject_unverified_recipient,
                                        permit
@@ -151,3 +156,6 @@ postscreen_pipelining_enable         = yes
 postscreen_non_smtp_command_enable   = yes
 postscreen_bare_newline_enable       = yes
 postscreen_bare_newline_action       = drop
+multi_instance_wrapper               = ${command_directory}/postmulti -p --
+multi_instance_enable                = yes
+multi_instance_directories           = /opt/local/etc/postfix-out
