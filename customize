@@ -216,20 +216,39 @@ mkdir -p /opt/local/src/
   chown root:postfix /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
   chmod 0660 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
 )
+echo "* setup postwhite-wrapper"
+cat >> /opt/local/bin/postwhite-wrapper << EOF
+#!/usr/bin/bash
+
+/opt/local/bin/postwhite
+
+printf "40.107.0.0/16\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+printf "10.42.200.108/32\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+EOF
+chmod +x /opt/local/bin/postwhite-wrapper
 
 echo "* setup autoresponder"
 mkdir -p /opt/local/var/vmail
 curl -L -s https://github.com/jfqd/autoresponder/archive/${AUTORESPONDER_VERSION}.tar.gz | gtar xz -C /opt/local/var/vmail --strip-components=1
 sed -i 's#/var/lib/vmail#/opt/local/var/vmail#' /opt/local/var/vmail/autoresponder
-gem install redis
-gem install dotenv
-gem install mail
-gem install pony
+(
+  cd /opt/local/var/vmail
+  gem install bundler
+  bundle
+)
 mv /opt/local/var/vmail/env /opt/local/var/vmail/.env
 chmod 0640 /opt/local/var/vmail/.env
 chown root:vmail /opt/local/var/vmail/.env
 touch /var/log/autoresponder.log
 chown vmail:root /var/log/autoresponder.log
+
+echo "* setup posttls"
+cat >> /opt/local/etc/sudoers.d/vmail << EOF
+vmail ALL=(postfix) NOPASSWD: /opt/local/sbin/postcat
+vmail ALL=(postfix) NOPASSWD: /opt/local/bin/egrep
+vmail ALL=(root) NOPASSWD: /opt/local/sbin/postsuper
+vmail ALL=(root) NOPASSWD: /opt/local/sbin/sendmail
+EOF
 
 echo "* import amavisd.xml"
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
