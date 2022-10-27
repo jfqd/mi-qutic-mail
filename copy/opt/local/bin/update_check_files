@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+cp /var/mail/shared/client_checks /opt/local/etc/postfix/client_checks
+cp /var/mail/shared/sender_checks /opt/local/etc/postfix/sender_checks
+/opt/local/sbin/postmap hash:/opt/local/etc/postfix/client_checks
+/opt/local/sbin/postmap hash:/opt/local/etc/postfix/sender_checks
+svcadm restart svc:/pkgsrc/postfix:default
