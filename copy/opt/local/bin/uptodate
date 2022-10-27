@@ -66,6 +66,8 @@ cat >> /opt/local/lib/svc/manifest/amavisd.xml << EOF
 </service_bundle>
 EOF
 # enable
+chown root:amavis /opt/local/etc/amavisd.conf
+chmod 0640 /opt/local/etc/amavisd.conf
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
 /opt/local/bin/sa-update
 chown -R spamd:spamd /var/spamassassin/
