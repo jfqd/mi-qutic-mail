@@ -12,3 +12,7 @@ CRON='5 * * * * [[ `/usr/bin/ps auxwww | /usr/bin/grep logadm | /usr/bin/wc -l` 
 # send stats to zabbix
 CRON="0,5,10,15,20,25,30,35,40,45,50,55 * * * * sudo -u zabbix /opt/local/bin/zabbix_postfix 1>/dev/null 2>/dev/null"
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
+
+# create pflogsumm-report once a day
+CRON="0 0 * * * sudo -u admin pflogsumm -d yesterday /var/log/mail.log* --rej-add-from --verbose-msg-detail --problems-first --ignore-case --iso-date-time"
+(crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
