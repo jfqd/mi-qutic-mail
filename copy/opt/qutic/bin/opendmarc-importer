@@ -1,3 +1,4 @@
+cat /opt/local/bin/opendmarc-importer
 #!/usr/bin/bash
 # original from: https://gist.github.com/stevejenkins/1b61d15cc5aaf3e6819f
 # Imports data from OpenDMARC's opendmarc.dat file into a local MySQL DB
@@ -11,9 +12,11 @@ export OPENDMARC_DBHOST='localhost'
 export OPENDMARC_USER='opendmarc'
 export OPENDMARC_PASSWORD='opendmarc-password'
 export OPENDMARC_DB='opendmarc'
+
 # History File Info
 HISTDIR='/var/run/opendmarc'
 HISTFILE='opendmarc'
+HISTFOLDER="${HISTFILE}-$$"
 # Current date
 DATE=$(date +"%Y-%m-%d")
 
@@ -21,19 +24,20 @@ DATE=$(date +"%Y-%m-%d")
 touch ${HISTDIR}/${HISTFILE}.dat
 
 # create working folder
-mkdir -p /var/tmp/${HISTFILE}-$$
+mkdir -p /var/tmp/${HISTFOLDER}
 
 # Backup and move history file temp dir for processing
 cp ${HISTDIR}/${HISTFILE}.dat ${HISTDIR}/${HISTFILE}.dat.${DATE}.$$
 > ${HISTDIR}/${HISTFILE}.dat
-cp ${HISTDIR}/${HISTFILE}.dat.${DATE}.$$ /var/tmp/${HISTFILE}-$$/${HISTFILE}.dat
+cp ${HISTDIR}/${HISTFILE}.dat.${DATE}.$$ /var/tmp/${HISTFOLDER}/${HISTFILE}.dat
 
-# switch to working folder
-cd /var/tmp/${HISTFILE}-$$
+(
+  # switch to working folder
+  cd /var/tmp/${HISTFOLDER}
 
-# Import temp history file data and send reports
-/opt/local/sbin/opendmarc-import  -verbose < /var/tmp/${HISTFILE}-$$/${HISTFILE}.dat
+  # Import temp history file data and send reports
+  /opt/local/sbin/opendmarc-import  -verbose < /var/tmp/${HISTFOLDER}/${HISTFILE}.dat
+)
 
 # Delete temp history file
-cd ..
-rm -rf /var/tmp/${HISTFILE}-$$
+rm -rf /var/tmp/${HISTFOLDER}

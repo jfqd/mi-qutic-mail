@@ -30,12 +30,12 @@ if mdata-get postfix_postmaster 1>/dev/null 2>&1; then
   sed -i "s#report@example.com#${REPORT_EMAIL}#g" /opt/local/bin/opendmarc-reporter
 fi
 
-CRON='0 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-importer &>>/var/log/opendmarc/importer.log'
+CRON='0 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-importer 2>&1 >>/var/log/opendmarc/importer.log'
 (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
 
 if mdata-get opendmarc_reporter 1>/dev/null 2>&1; then
   if [ "`mdata-get opendmarc_reporter`" = "true" ]; then
-    CRON='15 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-reporter &>>/var/log/opendmarc/reporter.log'
+    CRON='15 3 * * * sudo -u opendmarc /opt/qutic/bin/opendmarc-reporter 2>&1 >>/var/log/opendmarc/reporter.log'
     (crontab -l 2>/dev/null || true; echo "$CRON" ) | sort | uniq | crontab
     
     CRON='15 5 * * * sudo -u vmail /opt/qutic/bin/cleanup_dmarc_errors 1>/dev/null'
