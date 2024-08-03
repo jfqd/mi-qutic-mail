@@ -43,4 +43,7 @@ if mdata-get opendmarc_reporter 1>/dev/null 2>&1; then
   fi
 fi
 
+mkdir -p /var/log/opendmarc/
+chown -R opendmarc:opendmarc /var/log/opendmarc/
+
 /usr/sbin/svcadm enable -r svc:/pkgsrc/opendmarc:default

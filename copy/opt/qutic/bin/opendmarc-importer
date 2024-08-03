@@ -1,4 +1,3 @@
-cat /opt/local/bin/opendmarc-importer
 #!/usr/bin/bash
 # original from: https://gist.github.com/stevejenkins/1b61d15cc5aaf3e6819f
 # Imports data from OpenDMARC's opendmarc.dat file into a local MySQL DB
