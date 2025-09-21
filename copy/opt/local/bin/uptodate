@@ -7,7 +7,9 @@ fi
 
 /opt/local/bin/pkgin -y ug
 /opt/local/bin/pkgin clean
+/opt/local/bin/pkgin -y in dovecot-mysql postfix-mysql
 svcadm restart dovecot
+svcadm enable postfix
 svcadm restart postfix
 svcadm disable amavisd
 svcadm disable fail2ban
@@ -17,7 +19,7 @@ rm /var/run/fail2ban.sock || true
 svcadm enable fail2ban
 pkill amavisd
 
-if [[ ! `egrep 'msginfo->originating\(c\(.*\)\);' /opt/local/sbin/amavisd` ]]; then
+if [[ ! `grep -E 'msginfo->originating\(c\(.*\)\);' /opt/local/sbin/amavisd` ]]; then
   sed -i \
       "s|  Amavis::load_policy_bank(\$_,\$msginfo) for \@bank_names;|  Amavis::load_policy_bank(\$_,\$msginfo) for \@bank_names;\n  \$msginfo->originating(c(\'originating\'));|" \
       /opt/local/sbin/amavisd
@@ -69,11 +71,20 @@ EOF
 chown root:amavis /opt/local/etc/amavisd.conf
 chmod 0640 /opt/local/etc/amavisd.conf
 svccfg import /opt/local/lib/svc/manifest/amavisd.xml
-/opt/local/bin/sa-update
 chown -R spamd:spamd /var/spamassassin/
-chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys
-svcadm enable amavisd
+chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys/
+
 sed -i -e "s/iteritems()/items()/g" /opt/local/bin/pyzor
-sed -i -e "s/iteritems()/items()/g" /opt/local/lib/python3.9/site-packages/pyzor/client.py
-sed -i -e "s/xrange(length)/range(length)/g" /opt/local/lib/python3.9/site-packages/pyzor/digest.py
+sed -i -e "s/iteritems()/items()/g" /opt/local/lib/python3.12/site-packages/pyzor/client.py
+sed -i -e "s/xrange(length)/range(length)/g" /opt/local/lib/python3.12/site-packages/pyzor/digest.py
+
+sed -i -e "s/>size(\$udp_payload_size)/>UDPsize(\$udp_payload_size)/" /opt/local/lib/perl5/vendor_perl/5.38.0/Mail/SpamAssassin/DnsResolver.pm
+
+sed -i \
+  -e "s/\? \$rr->txtdata : \$rr->rdatastr;/\? \$rr->txtdata : \$rr->rdstring();/" \
+  /opt/local/bin/sa-update
+
+/opt/local/bin/sa-update
+
+svcadm enable amavisd
 svcs -vx
