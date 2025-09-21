@@ -7,7 +7,7 @@ set -o errexit
 
 AUTORESPONDER_VERSION="v0.1.0"
 YARA_RULES_VERSION="0.0.2"
-SA_VERSION="3.004006"
+SA_VERSION="4.000001"
 
 MUNIN_PLUGINS="
 	postfix_mailvolume
@@ -104,7 +104,6 @@ mv /opt/local/etc/tmp/submission_header_cleanup /opt/local/etc/postfix/submissio
 mv /opt/local/etc/tmp/amavisd.conf /opt/local/etc/amavisd.conf
 mv /opt/local/etc/tmp/clamd.conf /opt/local/etc/clamd.conf
 mv /opt/local/etc/tmp/freshclam.conf /opt/local/etc/freshclam.conf
-mv /opt/local/etc/tmp/cluebringer.conf /opt/local/etc/cluebringer.conf
 mv /opt/local/etc/tmp/dovecot.conf /opt/local/etc/dovecot/dovecot.conf
 mv /opt/local/etc/tmp/local.cf /opt/local/etc/spamassassin/local.cf
 mv /opt/local/etc/tmp/mailer.conf /etc/mailer.conf
@@ -116,8 +115,6 @@ chown clamav:clamav /var/log/clamav
 chmod 0755 /var/log/clamav
 
 echo "* Set Folder rights"
-chmod 0640 /opt/local/etc/cluebringer.conf
-chown root:policyd /opt/local/etc/cluebringer.conf
 mkdir -p /opt/local/etc/postfix/sql
 chmod 0750 /opt/local/etc/postfix/sql
 chmod 0640 /opt/local/etc/postfix/sql/*
