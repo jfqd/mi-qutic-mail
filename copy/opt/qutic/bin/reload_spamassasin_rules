@@ -1,6 +1,0 @@
-#!/usr/bin/bash
-
-SA_VERSION="3.004002"
-/usr/bin/cp /var/mail/shared/80_QD_body.cf /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_body.cf
-/usr/bin/cp /var/mail/shared/80_QD_header.cf /var/spamassassin/${SA_VERSION}/updates_qutic_com/80_QD_header.cf
-/usr/sbin/svcadm restart amavisd
