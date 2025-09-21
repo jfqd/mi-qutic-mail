@@ -14,5 +14,5 @@ export OPENDMARC_DB='opendmarc'
 
 # create report and expire
 cd /var/tmp/
-/opt/local/sbin/opendmarc-reports -dbhost=${DBHOST} -dbuser=${DBUSER} -dbpasswd=${DBPASS} -dbname=${DBNAME} -verbose --utc -interval=86400 -report-email 'report@example.com' -report-org 'qutic.com' -utc -nodomain 'google.com'
+/opt/local/sbin/opendmarc-reports -dbhost=${DBHOST} -dbuser=${DBUSER} -dbpasswd=${DBPASS} -dbname=${DBNAME} -verbose --utc -interval=86400 -report-email 'report@example.com' -report-org 'example.com' -utc -nodomain 'google.com' --smtp-port=587
 /opt/local/sbin/opendmarc-expire  -dbhost=${DBHOST} -dbuser=${DBUSER} -dbpasswd=${DBPASS} -dbname=${DBNAME} -verbose
