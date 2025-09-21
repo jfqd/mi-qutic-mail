@@ -5,10 +5,12 @@
   env.logfile    mail.log
 
 [fail2ban]
+  user           root
   env.client     /opt/local/bin/fail2ban-client
+  env.config_dir /opt/local/etc/fail2ban
 
 [dovecot]
   env.LOGFILE    /var/log/dovecot.log
 
-[clamav]
+[clamav]         
   user           root
