@@ -211,13 +211,14 @@ mkdir -p /opt/local/src/
   touch /opt/local/src/postwhite/yahoo_static_hosts.txt
   chown postfix:postfix /opt/local/src/postwhite/yahoo_static_hosts.txt
   chown root:postfix /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
-  chmod 0660 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
+  chmod 0640 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
 )
 echo "* setup postwhite-wrapper"
 cat >> /opt/local/bin/postwhite-wrapper << EOF
 #!/usr/bin/bash
 
 /opt/local/bin/postwhite
+chmod 0640 /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
 
 printf "40.107.0.0/16\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
 printf "10.42.200.108/32\tpermit\n" >> /opt/local/etc/postfix/postscreen_spf_whitelist.cidr
