@@ -77,6 +77,8 @@ chown -R spamd:spamd /opt/local/etc/spamassassin/sa-update-keys/
 sed -i -e "s/iteritems()/items()/g" /opt/local/bin/pyzor
 sed -i -e "s/iteritems()/items()/g" /opt/local/lib/python3.12/site-packages/pyzor/client.py
 sed -i -e "s/xrange(length)/range(length)/g" /opt/local/lib/python3.12/site-packages/pyzor/digest.py
+sed -i -e "s/iteritems()/items()/g" /opt/local/lib/python3.13/site-packages/pyzor/client.py
+sed -i -e "s/xrange(length)/range(length)/g" /opt/local/lib/python3.13/site-packages/pyzor/digest.py
 
 sed -i -e "s/>size(\$udp_payload_size)/>UDPsize(\$udp_payload_size)/" /opt/local/lib/perl5/vendor_perl/5.38.0/Mail/SpamAssassin/DnsResolver.pm
 
